@@ -1,0 +1,79 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title Diagrama de Classes - baixo eletrico customizado
+
+' =====================
+' Classes Base
+' =====================
+class Pessoa {
+  - id: Long
+  - nome: String
+  - email: String
+}
+
+class Cliente {
+}
+
+class Luthier {
+}
+
+Pessoa <|-- Cliente
+Pessoa <|-- Luthier
+
+' =====================
+' Pedido
+' =====================
+class Pedido {
+  - id: Long
+  - dataPedido: Date
+  - status: String
+}
+
+Cliente "1" --> "N" Pedido : faz >
+Pedido "N" --> "1" BaixoCustomizado : contém >
+Pedido "1" --> "N" Luthier : executado por >
+
+' =====================
+' Baixo Customizado
+' =====================
+class BaixoCustomizado {
+  - id: Long
+  - modeloBase: String
+  - cor: String
+  - precoEstimado: Double
+}
+
+class ConfiguracaoEletronica {
+  - id: Long
+  - volumeKnobs: Int
+  - toneKnobs: Int
+  - circuitoAtivo: Boolean
+}
+
+BaixoCustomizado "1" *-- "1" ConfiguracaoEletronica : composição >
+BaixoCustomizado "1" o-- "N" Acessorio : agregação >
+BaixoCustomizado "N" -- "M" Captador : associação >
+
+' =====================
+' Acessórios
+' =====================
+class Acessorio {
+  - id: Long
+  - tipo: String
+  - marca: String
+  - material: String
+}
+
+' =====================
+' Captadores
+' =====================
+class Captador {
+  - id: Long
+  - tipo: String
+  - marca: String
+  - preco: Double
+}
+
+
+@enduml
