@@ -31,7 +31,7 @@ public class Acessorios extends DefaultEntity{
         return marcaAcessorios;
     }
 
-    public void setMarca(String marca) {
+    public void setMarcaAcessorios(String marca) {
         this.marcaAcessorios = marca;
     }
 
@@ -47,7 +47,7 @@ public class Acessorios extends DefaultEntity{
         return tipoAcessorio;
     }
 
-    public void setTipo(TipoAcessorio tipoAcessorio) {
+    public void setTipoAcessorio(TipoAcessorio tipoAcessorio) {
         this.tipoAcessorio = tipoAcessorio;
     }
 }

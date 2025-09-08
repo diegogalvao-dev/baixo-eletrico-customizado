@@ -31,7 +31,7 @@ public class Captadores extends DefaultEntity{
         return marcaCaptador;
     }
 
-    public void setMarca(String marcaCaptador) {
+    public void setMarcaCaptador(String marcaCaptador) {
         this.marcaCaptador = marcaCaptador;
     }
 
@@ -47,7 +47,7 @@ public class Captadores extends DefaultEntity{
         return tipoCaptador;
     }
 
-    public void setTipo(TipoCaptador tipoCaptador) {
+    public void setTipoCaptador(TipoCaptador tipoCaptador) {
         this.tipoCaptador = tipoCaptador;
     }
 }
