@@ -13,18 +13,18 @@ public class ConfiguracaoEletronica extends DefaultEntity{
 
     @Column(name = "circuito_ativo", nullable = false)
     private Boolean circuitoAtivo;
+//
+//    @OneToOne(mappedBy = "configuracaoEletronica")
+//    private BaixoCustomizado baixoCustomizadoConfig;
 
-    @OneToOne(mappedBy = "configuracaoEletronica")
-    private BaixoCustomizado baixoCustomizadoConfig;
-
-
-    public BaixoCustomizado getBaixoCustomizadoConfig() {
-        return baixoCustomizadoConfig;
-    }
-
-    public void setBaixo(BaixoCustomizado baixoCustomizadoConfig) {
-        this.baixoCustomizadoConfig = baixoCustomizadoConfig;
-    }
+//
+//    public BaixoCustomizado getBaixoCustomizadoConfig() {
+//        return baixoCustomizadoConfig;
+//    }
+//
+//    public void setBaixo(BaixoCustomizado baixoCustomizadoConfig) {
+//        this.baixoCustomizadoConfig = baixoCustomizadoConfig;
+//    }
 
     public Boolean getCircuitoAtivo() {
         return circuitoAtivo;

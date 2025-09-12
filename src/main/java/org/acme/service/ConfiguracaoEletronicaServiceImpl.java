@@ -25,7 +25,7 @@ public class ConfiguracaoEletronicaServiceImpl implements ConfiguracaoEletronica
         newConfiguracaoEletronica.setVolumeKnobs(dto.volumeKnobs());
         newConfiguracaoEletronica.setToneKnobs(dto.toneKnobs());
         newConfiguracaoEletronica.setCircuitoAtivo(dto.circuitoAtivo());
-        newConfiguracaoEletronica.setBaixo(dto.baixoCustomizado());
+//        newConfiguracaoEletronica.setBaixo(dto.baixoCustomizado());
 
         configuracaoEletronicaRepository.persist(newConfiguracaoEletronica);
 
@@ -42,7 +42,7 @@ public class ConfiguracaoEletronicaServiceImpl implements ConfiguracaoEletronica
         modifyConfig.setVolumeKnobs(dto.volumeKnobs());
         modifyConfig.setToneKnobs(dto.toneKnobs());
         modifyConfig.setCircuitoAtivo(dto.circuitoAtivo());
-        modifyConfig.setBaixo(dto.baixoCustomizado());
+//        modifyConfig.setBaixo(dto.baixoCustomizado());
 
 
     }
@@ -54,6 +54,7 @@ public class ConfiguracaoEletronicaServiceImpl implements ConfiguracaoEletronica
     }
 
     @Override
+    @Transactional
     public List<ConfiguracaoEletronicaResponseDTO> findAll() {
         return configuracaoEletronicaRepository.findAll().stream().map(e -> ConfiguracaoEletronicaResponseDTO.valueOf(e)).toList();
     }

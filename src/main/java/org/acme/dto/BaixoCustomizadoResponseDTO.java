@@ -11,7 +11,7 @@ public record BaixoCustomizadoResponseDTO(
         ModeloBaseBaixo modeloBaseBaixo,
         CorBaixo corBaixo,
         Double priceEstimated,
-        Long configuracaoEletronica,
+//        Long configuracaoEletronica,
         List<Long> capitadoresListIds,
         List<Long> acessoriosListIds) {
 
@@ -26,9 +26,10 @@ public record BaixoCustomizadoResponseDTO(
                 baixoCustomizado.getModeloBaseBaixo(),
                 baixoCustomizado.getCorBaixo(),
                 baixoCustomizado.getPriceEstimated(),
-                baixoCustomizado.getConfiguracaoEletronica().getId(),
+//                baixoCustomizado.getConfiguracaoEletronica().getId(),
                 baixoCustomizado.getCaptadoresList().stream().map(c -> c.getId()).toList(),
-                baixoCustomizado.getAcessoriosList().stream().map(a -> a.getId()).toList());
+                baixoCustomizado.getAcessoriosList().stream().map(a -> a.getId()).toList()
+        );
 
     }
 

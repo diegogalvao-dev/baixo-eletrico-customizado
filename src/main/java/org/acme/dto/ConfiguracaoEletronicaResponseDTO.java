@@ -3,7 +3,7 @@ package org.acme.dto;
 import org.acme.model.BaixoCustomizado;
 import org.acme.model.ConfiguracaoEletronica;
 
-public record ConfiguracaoEletronicaResponseDTO(Long id, Integer volumeKnobs, Integer toneKnobs, Boolean circuitoAtivo, BaixoCustomizado baixoCustomizado) {
+public record ConfiguracaoEletronicaResponseDTO(Long id, Integer volumeKnobs, Integer toneKnobs, Boolean circuitoAtivo/*, BaixoCustomizado baixoCustomizado*/) {
 
     public static ConfiguracaoEletronicaResponseDTO valueOf(ConfiguracaoEletronica configuracaoEletronica){
 
@@ -15,8 +15,8 @@ public record ConfiguracaoEletronicaResponseDTO(Long id, Integer volumeKnobs, In
                 configuracaoEletronica.getId(),
                 configuracaoEletronica.getVolumeKnobs(),
                 configuracaoEletronica.getToneKnobs(),
-                configuracaoEletronica.getCircuitoAtivo(),
-                configuracaoEletronica.getBaixoCustomizadoConfig());
+                configuracaoEletronica.getCircuitoAtivo()/*,
+                configuracaoEletronica.getBaixoCustomizadoConfig()*/);
 
     }
 

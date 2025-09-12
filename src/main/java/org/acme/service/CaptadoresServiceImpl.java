@@ -25,7 +25,6 @@ public class CaptadoresServiceImpl implements CaptadoresService{
         newCaptadores.setTipoCaptador(dto.tipoCaptador());
         newCaptadores.setMarcaCaptador(dto.marcaCaptador());
         newCaptadores.setPosicao(dto.posicao());
-        newCaptadores.setBaixo(dto.baixoCustomizadoCap());
 
         captadoresRepository.persist(newCaptadores);
 
@@ -42,8 +41,6 @@ public class CaptadoresServiceImpl implements CaptadoresService{
         modifyCap.setTipoCaptador(dto.tipoCaptador());
         modifyCap.setMarcaCaptador(dto.marcaCaptador());
         modifyCap.setPosicao(dto.posicao());
-        modifyCap.setBaixo(dto.baixoCustomizadoCap());
-
 
     }
 
@@ -54,6 +51,7 @@ public class CaptadoresServiceImpl implements CaptadoresService{
     }
 
     @Override
+    @Transactional
     public List<CaptadoresResponseDTO> findAll() {
         return captadoresRepository.findAll().stream().map(e -> CaptadoresResponseDTO.valueOf(e)).toList();
     }

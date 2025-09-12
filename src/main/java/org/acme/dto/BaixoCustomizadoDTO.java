@@ -1,6 +1,5 @@
 package org.acme.dto;
 
-import org.acme.model.ConfiguracaoEletronica;
 import org.acme.model.CorBaixo;
 import org.acme.model.ModeloBaseBaixo;
 
@@ -10,7 +9,7 @@ public record BaixoCustomizadoDTO(
         ModeloBaseBaixo modeloBaseBaixo,
         CorBaixo corBaixo,
         Double priceEstimated,
-        Long configuracaoEletronica,
-        List<Long> capitadoresListIds,
+//        Long configuracaoEletronica,
+        List<Long> captadoresListIds,
         List<Long> acessoriosListIds) {
 }

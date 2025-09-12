@@ -25,7 +25,6 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         newAcessorios.setTipoAcessorio(dto.tipoAcessorio());
         newAcessorios.setMarcaAcessorios(dto.marcaAcessorios());
         newAcessorios.setMaterial(dto.material());
-        newAcessorios.setBaixo(dto.baixoCustomizadoAce());
 
         acessoriosRepository.persist(newAcessorios);
 
@@ -42,7 +41,6 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         modifyAce.setTipoAcessorio(dto.tipoAcessorio());
         modifyAce.setMarcaAcessorios(dto.marcaAcessorios());
         modifyAce.setMaterial(dto.material());
-        modifyAce.setBaixo(dto.baixoCustomizadoAce());
 
     }
 

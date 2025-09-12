@@ -2,10 +2,11 @@ package org.acme.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class BaixoCustomizado extends DefaultEntity{
+public class BaixoCustomizado extends DefaultEntity {
 
     @Enumerated(EnumType.STRING)
     private ModeloBaseBaixo modeloBaseBaixo;
@@ -16,18 +17,25 @@ public class BaixoCustomizado extends DefaultEntity{
     @Column(nullable = false)
     private Double priceEstimated;
 
-    //relacionamento
+    // --- RELACIONAMENTOS ---
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "configEletronica", referencedColumnName = "id")
-    private ConfiguracaoEletronica configuracaoEletronica;
+    // LADO INVERSO (INVERSE SIDE) DA RELAÇÃO COM ACESSORIOS
+    @OneToMany(mappedBy = "baixoCustomizadoAce", orphanRemoval = false)
+    private List<Acessorios> acessoriosList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "baixo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Captadores> captadoresList;
+    /**
+     * Esta anotação define que UM BaixoCustomizado pode ter MUITOS Captadores.
+     * Este é o "lado inverso" da relação, pois não gerencia a chave estrangeira.
+     * - mappedBy = "baixoCustomizadoCap": Esta é a parte mais importante. Ela diz ao JPA:
+     *   "Para saber como esta relação funciona, olhe para a entidade Captadores, no campo chamado 'baixoCustomizadoCap'.
+     *   Aquele campo é o dono e contém as informações da junção."
+     *   O nome aqui deve corresponder EXATAMENTE ao nome do campo na outra classe.
+     */
+    @OneToMany(mappedBy = "baixoCustomizadoCap", orphanRemoval = false)
+    private List<Captadores> captadoresList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "baixo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Acessorios> acessoriosList;
 
+    // --- GETTERS E SETTERS PADRÃO ---
 
     public List<Acessorios> getAcessoriosList() {
         return acessoriosList;
@@ -43,14 +51,6 @@ public class BaixoCustomizado extends DefaultEntity{
 
     public void setCaptadoresList(List<Captadores> captadoresList) {
         this.captadoresList = captadoresList;
-    }
-
-    public ConfiguracaoEletronica getConfiguracaoEletronica() {
-        return configuracaoEletronica;
-    }
-
-    public void setConfiguracaoEletronica(ConfiguracaoEletronica configuracaoEletronica) {
-        this.configuracaoEletronica = configuracaoEletronica;
     }
 
     public CorBaixo getCorBaixo() {
@@ -75,5 +75,35 @@ public class BaixoCustomizado extends DefaultEntity{
 
     public void setPriceEstimated(Double priceEstimated) {
         this.priceEstimated = priceEstimated;
+    }
+
+    // =================================================================
+    // MÉTODOS DE AJUDA PARA SINCRONIZAÇÃO (ACESSÓRIOS)
+    // =================================================================
+
+    public void addAcessorio(Acessorios acessorio) {
+        this.acessoriosList.add(acessorio);
+        acessorio.setBaixoCustomizadoAce(this);
+    }
+
+    public void removeAcessorio(Acessorios acessorio) {
+        this.acessoriosList.remove(acessorio);
+        acessorio.setBaixoCustomizadoAce(null);
+    }
+
+    // =================================================================
+    // MÉTODOS DE AJUDA PARA SINCRONIZAÇÃO (CAPTADORES)
+    // =================================================================
+
+    public void addCaptador(Captadores captador) {
+        this.captadoresList.add(captador);
+        // A chamada aqui deve corresponder ao setter na classe Captadores
+        captador.setBaixoCustomizadoCap(this);
+    }
+
+    public void removeCaptador(Captadores captador) {
+        this.captadoresList.remove(captador);
+        // A chamada aqui deve corresponder ao setter na classe Captadores
+        captador.setBaixoCustomizadoCap(null);
     }
 }

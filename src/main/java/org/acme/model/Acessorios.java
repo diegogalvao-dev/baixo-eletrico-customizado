@@ -16,23 +16,23 @@ public class Acessorios extends DefaultEntity{
     private String material;
 
     @ManyToOne
-    @JoinColumn(name = "baixo_id", nullable = false)
+    @JoinColumn(name = "baixo_id", nullable = true)
     private BaixoCustomizado baixoCustomizadoAce;
 
     public BaixoCustomizado getBaixoCustomizadoAce() {
         return baixoCustomizadoAce;
     }
 
-    public void setBaixo(BaixoCustomizado baixoCustomizadoAce) {
+    public void setBaixoCustomizadoAce(BaixoCustomizado baixoCustomizadoAce) {
         this.baixoCustomizadoAce = baixoCustomizadoAce;
     }
 
-    public String getMarcaAcessorio() {
+    public String getMarcaAcessorios() {
         return marcaAcessorios;
     }
 
-    public void setMarcaAcessorios(String marca) {
-        this.marcaAcessorios = marca;
+    public void setMarcaAcessorios(String marcaAcessorios) {
+        this.marcaAcessorios = marcaAcessorios;
     }
 
     public String getMaterial() {
