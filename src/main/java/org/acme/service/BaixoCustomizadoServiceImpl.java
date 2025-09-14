@@ -7,10 +7,11 @@ import org.acme.dto.BaixoCustomizadoDTO;
 import org.acme.dto.BaixoCustomizadoResponseDTO;
 import org.acme.model.Acessorios;
 import org.acme.model.BaixoCustomizado;
-import org.acme.model.Captadores; // Importa a entidade Captadores
+import org.acme.model.Captadores;
+import org.acme.model.ConfiguracaoEletronica; // Importa a entidade ConfiguracaoEletronica
 import org.acme.repository.AcessoriosRepository;
 import org.acme.repository.BaixoCustomizadoRepository;
-import org.acme.repository.CaptadoresRepository; // Importa o repositório de Captadores
+import org.acme.repository.CaptadoresRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService {
     @Inject
     AcessoriosRepository acessoriosRepository;
 
-    // PASSO 1: Injetar o repositório de Captadores
     @Inject
     CaptadoresRepository captadoresRepository;
 
@@ -38,6 +38,21 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService {
         newBaixocustomizado.setCorBaixo(dto.corBaixo());
         newBaixocustomizado.setPriceEstimated(dto.priceEstimated());
 
+        // =================================================================
+        // PASSO FINAL: Gerenciamento da Composição com ConfiguracaoEletronica
+        // Objetivo: Criar a ConfiguracaoEletronica como parte do BaixoCustomizado.
+        // =================================================================
+        if (dto.configuracaoEletronica() != null) {
+            // 1. Cria uma nova instância da entidade "filha".
+            ConfiguracaoEletronica config = new ConfiguracaoEletronica();
+            // 2. Popula os dados da "filha" com as informações do DTO aninhado.
+            config.setVolumeKnobs(dto.configuracaoEletronica().volumeKnobs());
+            config.setToneKnobs(dto.configuracaoEletronica().toneKnobs());
+            config.setCircuitoAtivo(dto.configuracaoEletronica().circuitoAtivo());
+            // 3. Associa a "filha" ao "pai".
+            newBaixocustomizado.setConfiguracaoEletronica(config);
+        }
+
         // --- Gerenciamento dos Acessórios ---
         if (dto.acessoriosListIds() != null) {
             List<Acessorios> acessoriosParaAdd = acessoriosRepository.listDeAceParaBaixo(dto.acessoriosListIds());
@@ -46,17 +61,16 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService {
             }
         }
 
-        // PASSO 2: Adicionar a lógica de criação para os Captadores
         // --- Gerenciamento dos Captadores ---
         if (dto.captadoresListIds() != null) {
-            // Assumindo que você criará um método `listDeCapParaBaixo` em CaptadoresRepository,
-            // assim como fez para AcessoriosRepository.
             List<Captadores> captadoresParaAdd = captadoresRepository.listDeCapParaBaixo(dto.captadoresListIds());
             for (Captadores cap : captadoresParaAdd) {
                 newBaixocustomizado.addCaptador(cap);
             }
         }
 
+        // Ponto Chave: Persistimos APENAS o "pai" (BaixoCustomizado).
+        // Graças ao `cascade = CascadeType.ALL`, o JPA automaticamente salvará a ConfiguracaoEletronica junto.
         baixocustomizadoRepository.persist(newBaixocustomizado);
 
         return BaixoCustomizadoResponseDTO.valueOf(newBaixocustomizado);
@@ -75,6 +89,27 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService {
         baixo.setCorBaixo(dto.corBaixo());
         baixo.setPriceEstimated(dto.priceEstimated());
 
+        // =================================================================
+        // PASSO FINAL: Gerenciamento da Composição no Update
+        // =================================================================
+        if (dto.configuracaoEletronica() != null) {
+            // Busca a configuração existente. Se não existir, cria uma nova.
+            ConfiguracaoEletronica config = baixo.getConfiguracaoEletronica();
+            if (config == null) {
+                config = new ConfiguracaoEletronica();
+                baixo.setConfiguracaoEletronica(config);
+            }
+            // Atualiza os campos da configuração existente com os novos dados.
+            // O JPA detectará essas mudanças e fará um UPDATE na tabela ConfiguracaoEletronica.
+            config.setVolumeKnobs(dto.configuracaoEletronica().volumeKnobs());
+            config.setToneKnobs(dto.configuracaoEletronica().toneKnobs());
+            config.setCircuitoAtivo(dto.configuracaoEletronica().circuitoAtivo());
+        } else {
+            // Se o DTO não enviou uma configuração, removemos a existente.
+            // Graças ao `orphanRemoval = true`, o JPA deletará a linha correspondente no banco.
+            baixo.setConfiguracaoEletronica(null);
+        }
+
         // --- Gerenciamento da Lista de Acessórios ---
         List<Acessorios> acessoriosAtuais = new ArrayList<>(baixo.getAcessoriosList());
         for (Acessorios accAtual : acessoriosAtuais) {
@@ -91,7 +126,6 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService {
             }
         }
 
-        // PASSO 3: Adicionar a lógica de update para os Captadores
         // --- Gerenciamento da Lista de Captadores ---
         List<Captadores> captadoresAtuais = new ArrayList<>(baixo.getCaptadoresList());
         for (Captadores capAtual : captadoresAtuais) {

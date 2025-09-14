@@ -19,20 +19,35 @@ public class BaixoCustomizado extends DefaultEntity {
 
     // --- RELACIONAMENTOS ---
 
-    // LADO INVERSO (INVERSE SIDE) DA RELAÇÃO COM ACESSORIOS
     @OneToMany(mappedBy = "baixoCustomizadoAce", orphanRemoval = false)
     private List<Acessorios> acessoriosList = new ArrayList<>();
 
-    /**
-     * Esta anotação define que UM BaixoCustomizado pode ter MUITOS Captadores.
-     * Este é o "lado inverso" da relação, pois não gerencia a chave estrangeira.
-     * - mappedBy = "baixoCustomizadoCap": Esta é a parte mais importante. Ela diz ao JPA:
-     *   "Para saber como esta relação funciona, olhe para a entidade Captadores, no campo chamado 'baixoCustomizadoCap'.
-     *   Aquele campo é o dono e contém as informações da junção."
-     *   O nome aqui deve corresponder EXATAMENTE ao nome do campo na outra classe.
-     */
     @OneToMany(mappedBy = "baixoCustomizadoCap", orphanRemoval = false)
     private List<Captadores> captadoresList = new ArrayList<>();
+
+    // =================================================================
+    // LADO DONO (OWNING SIDE) DA RELAÇÃO DE COMPOSIÇÃO @OneToOne
+    // =================================================================
+    /**
+     * Esta anotação define uma relação um-para-um com ConfiguracaoEletronica.
+     * Esta é a entidade "dona", o que significa que ela é responsável por gerenciar a chave estrangeira.
+     *
+     * - cascade = CascadeType.ALL: Esta é a chave para a COMPOSIÇÃO. Significa que qualquer
+     *   operação de persistência (salvar, atualizar, etc.) feita no BaixoCustomizado será
+     *   "cascateada" para a ConfiguracaoEletronica associada. Se salvarmos o baixo, a configuração salva junto.
+     *
+     * - orphanRemoval = true: Se a ConfiguracaoEletronica for "desassociada" deste baixo
+     *   (ex: baixo.setConfiguracaoEletronica(null)), ela se torna uma "órfã" e será AUTOMATICAMENTE
+     *   removida do banco de dados. Isso garante que a "parte" não exista sem o "todo".
+     */
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    /**
+     * Define a coluna de chave estrangeira que será criada na tabela "BaixoCustomizado".
+     * - name: O nome da coluna no banco de dados.
+     * - referencedColumnName: A coluna na tabela "ConfiguracaoEletronica" para a qual a chave estrangeira aponta (geralmente o 'id').
+     */
+    @JoinColumn(name = "configuracao_eletronica_id", referencedColumnName = "id")
+    private ConfiguracaoEletronica configuracaoEletronica;
 
 
     // --- GETTERS E SETTERS PADRÃO ---
@@ -77,8 +92,17 @@ public class BaixoCustomizado extends DefaultEntity {
         this.priceEstimated = priceEstimated;
     }
 
+    public ConfiguracaoEletronica getConfiguracaoEletronica() {
+        return configuracaoEletronica;
+    }
+
+    // Setter padrão para a relação unidirecional.
+    public void setConfiguracaoEletronica(ConfiguracaoEletronica configuracaoEletronica) {
+        this.configuracaoEletronica = configuracaoEletronica;
+    }
+
     // =================================================================
-    // MÉTODOS DE AJUDA PARA SINCRONIZAÇÃO (ACESSÓRIOS)
+    // MÉTODOS DE AJUDA PARA SINCRONIZAÇÃO
     // =================================================================
 
     public void addAcessorio(Acessorios acessorio) {
@@ -91,19 +115,13 @@ public class BaixoCustomizado extends DefaultEntity {
         acessorio.setBaixoCustomizadoAce(null);
     }
 
-    // =================================================================
-    // MÉTODOS DE AJUDA PARA SINCRONIZAÇÃO (CAPTADORES)
-    // =================================================================
-
     public void addCaptador(Captadores captador) {
         this.captadoresList.add(captador);
-        // A chamada aqui deve corresponder ao setter na classe Captadores
         captador.setBaixoCustomizadoCap(this);
     }
 
     public void removeCaptador(Captadores captador) {
         this.captadoresList.remove(captador);
-        // A chamada aqui deve corresponder ao setter na classe Captadores
         captador.setBaixoCustomizadoCap(null);
     }
 }

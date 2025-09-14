@@ -2,8 +2,14 @@ package org.acme.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Representa a configuração eletrônica de um baixo.
+ * No nosso design (Composição), esta entidade é uma "parte" inseparável de um BaixoCustomizado.
+ * Ela não tem um ciclo de vida independente e é gerenciada inteiramente através do BaixoCustomizado.
+ * Por isso, ela não precisa de um link de volta para o seu "pai".
+ */
 @Entity
-public class ConfiguracaoEletronica extends DefaultEntity{
+public class ConfiguracaoEletronica extends DefaultEntity {
 
     @Column(name = "volume_knobs", nullable = false)
     private Integer volumeKnobs;
@@ -13,18 +19,8 @@ public class ConfiguracaoEletronica extends DefaultEntity{
 
     @Column(name = "circuito_ativo", nullable = false)
     private Boolean circuitoAtivo;
-//
-//    @OneToOne(mappedBy = "configuracaoEletronica")
-//    private BaixoCustomizado baixoCustomizadoConfig;
 
-//
-//    public BaixoCustomizado getBaixoCustomizadoConfig() {
-//        return baixoCustomizadoConfig;
-//    }
-//
-//    public void setBaixo(BaixoCustomizado baixoCustomizadoConfig) {
-//        this.baixoCustomizadoConfig = baixoCustomizadoConfig;
-//    }
+    // --- Getters e Setters --- //
 
     public Boolean getCircuitoAtivo() {
         return circuitoAtivo;
