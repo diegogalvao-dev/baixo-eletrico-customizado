@@ -8,10 +8,8 @@ import java.util.List;
 @Entity
 public class BaixoCustomizado extends DefaultEntity {
 
-    @Enumerated(EnumType.STRING)
     private ModeloBaseBaixo modeloBaseBaixo;
 
-    @Enumerated(EnumType.STRING)
     private CorBaixo corBaixo;
 
     @Column(nullable = false)
@@ -19,7 +17,12 @@ public class BaixoCustomizado extends DefaultEntity {
 
     // --- RELACIONAMENTOS ---
 
-    @OneToMany(mappedBy = "baixoCustomizadoAce", orphanRemoval = false)
+    @ManyToMany
+    @JoinTable(
+            name = "BaixoAcessorios",
+            joinColumns = @JoinColumn(name = "baixoId"),
+            inverseJoinColumns = @JoinColumn(name = "acessorioId")
+    )
     private List<Acessorios> acessoriosList = new ArrayList<>();
 
     @OneToMany(mappedBy = "baixoCustomizadoCap", orphanRemoval = false)

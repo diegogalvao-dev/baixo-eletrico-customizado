@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 @Entity
 public class Acessorios extends DefaultEntity{
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoAcessorio tipoAcessorio;
 
@@ -15,8 +14,7 @@ public class Acessorios extends DefaultEntity{
     @Column(nullable = false)
     private String material;
 
-    @ManyToOne
-    @JoinColumn(name = "baixo_id", nullable = true)
+    @ManyToMany(mappedBy = "acessoriosList")
     private BaixoCustomizado baixoCustomizadoAce;
 
     public BaixoCustomizado getBaixoCustomizadoAce() {

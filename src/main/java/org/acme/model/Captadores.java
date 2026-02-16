@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 @Entity
 public class Captadores extends DefaultEntity {
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoCaptador tipoCaptador;
 
