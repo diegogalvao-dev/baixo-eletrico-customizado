@@ -1,42 +1,87 @@
 @startuml
-'https://plantuml.com/class-diagram
+title Sistema de Loja de Baixos e Luthieria
 
-title Diagrama de Classes - baixo eletrico customizado
-
-' =====================
-' Classes Base
-' =====================
+'=========================
+' HERANÇA
+'=========================
 class Pessoa {
   - id: Long
   - nome: String
   - email: String
 }
 
-class Cliente {
-}
-
-class Luthier {
-}
+class Cliente
+class Luthier
 
 Pessoa <|-- Cliente
 Pessoa <|-- Luthier
 
-' =====================
-' Pedido
-' =====================
-class Pedido {
+'=========================
+' LOJA
+'=========================
+abstract class Produto {
   - id: Long
-  - dataPedido: Date
-  - status: String
+  - nome: String
+  - preco: Double
 }
 
-Cliente "1" --> "N" Pedido : faz >
-Pedido "N" --> "1" BaixoCustomizado : contém >
-Pedido "1" --> "N" Luthier : executado por >
+class Baixo
 
-' =====================
-' Baixo Customizado
-' =====================
+enum BaixoModeloBase {
+    JAZZ_BASS
+    PRECISION
+    STINGRAY
+    THUNDERBIRD
+    CUSTOM
+}
+
+Baixo --> BaixoModeloBase
+
+class Acessorio
+
+enum AcessorioTipo {
+    CORREIA
+    CABO
+    PALHETA
+    CASE
+    AFINADOR
+    SUPORTE
+}
+
+Acessorio --> AcessorioTipo
+
+Produto <|-- Baixo
+Produto <|-- Acessorio
+
+class Pedido {
+  - id: Long
+  - data: Date
+  - valorTotal: Double
+}
+
+class ItemPedido {
+  - quantidade: int
+  - precoUnitario: Double
+}
+
+Cliente "1" -- "N" Pedido : realiza >
+Pedido "1" *-- "N" ItemPedido
+ItemPedido "N" --> "1" Produto
+
+'=========================
+' FORNECEDOR (AGREGAÇÃO)
+'=========================
+class Fornecedor {
+  - id: Long
+  - nome: String
+  - cnpj: String
+}
+
+Fornecedor "1" o-- "N" Produto : fornece >
+
+'=========================
+' LUTHIERIA
+'=========================
 class BaixoCustomizado {
   - id: Long
   - modeloBase: String
@@ -44,36 +89,51 @@ class BaixoCustomizado {
   - precoEstimado: Double
 }
 
+Cliente "1" -- "N" BaixoCustomizado : encomenda >
+Luthier "1" -- "N" BaixoCustomizado : constrói >
+
+enum StatusConstrucao {
+  PROJETANDO
+  EM_CONSTRUCAO
+  EM_TESTE
+  FINALIZADO
+  ENTREGUE
+}
+
+BaixoCustomizado --> StatusConstrucao
+
+'=========================
+' COMPOSIÇÃO
+'=========================
 class ConfiguracaoEletronica {
-  - id: Long
-  - volumeKnobs: Int
-  - toneKnobs: Int
-  - circuitoAtivo: Boolean
+  - volumeKnobs: int
+  - toneKnobs: int
+  - circuitoAtivo: boolean
 }
 
-BaixoCustomizado "1" *-- "1" ConfiguracaoEletronica : composição >
-BaixoCustomizado "1" o-- "N" Acessorio : agregação >
-BaixoCustomizado "1" -- "N" Captador : associação >
+BaixoCustomizado "1" *-- "1" ConfiguracaoEletronica
 
-' =====================
-' Acessórios
-' =====================
-class Acessorio {
-  - id: Long
-  - tipo: String
-  - marca: String
-  - material: String
+'=========================
+' CAPTADORES
+'=========================
+enum PosicaoCaptador {
+  BRACO
+  MEIO
+  PONTE
 }
 
-' =====================
-' Captadores
-' =====================
-class Captador {
-  - id: Long
-  - tipo: String
+abstract class Captador {
   - marca: String
   - preco: Double
+  - posicao: PosicaoCaptador
 }
 
+class CaptadorAtivo
+class CaptadorPassivo
+
+Captador <|-- CaptadorAtivo
+Captador <|-- CaptadorPassivo
+
+BaixoCustomizado "1" *-- "N" Captador
 
 @enduml

@@ -4,7 +4,7 @@ package org.acme.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ModeloBaseBaixo {
+public enum BaixoModeloBase {
 
     JAZZ_BASS(1L, "Jazz Bass"),
     PRECISION(2L, "Precision"),
@@ -15,7 +15,7 @@ public enum ModeloBaseBaixo {
     private final Long ID;
     private final String NAME;
 
-    ModeloBaseBaixo(Long id, String name){
+    BaixoModeloBase(Long id, String name){
         this.ID = id;
         this.NAME = name;
     }
@@ -28,8 +28,8 @@ public enum ModeloBaseBaixo {
         return NAME;
     }
 
-    public static ModeloBaseBaixo valueOf(Long id){
-        for (ModeloBaseBaixo m : ModeloBaseBaixo.values()){
+    public static BaixoModeloBase valueOf(Long id){
+        for (BaixoModeloBase m : BaixoModeloBase.values()){
             if (m.getID() == id){
                 return m;
             }

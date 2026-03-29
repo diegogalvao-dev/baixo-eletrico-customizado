@@ -4,7 +4,7 @@ package org.acme.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CorBaixo {
+public enum BaixoCor {
 
     SUNBURST(1L, "Sunburst"),
     PRETO(2L, "Preto"),
@@ -16,7 +16,7 @@ public enum CorBaixo {
     private final Long ID;
     private final String NAME;
 
-    CorBaixo(Long id, String name){
+    BaixoCor(Long id, String name){
         this.ID = id;
         this.NAME = name;
     }
@@ -29,8 +29,8 @@ public enum CorBaixo {
         return NAME;
     }
 
-    public static CorBaixo valueOf(Long id){
-        for (CorBaixo c : CorBaixo.values()){
+    public static BaixoCor valueOf(Long id){
+        for (BaixoCor c : BaixoCor.values()){
             if (c.getID() == id){
                 return c;
             }

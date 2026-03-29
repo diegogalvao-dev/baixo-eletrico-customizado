@@ -1,6 +1,6 @@
 package org.acme.model;
 
-public enum TipoAcessorio {
+public enum AcessorioTipo {
 
     CORREIA(1L, "Correia"),
     CABO(2L, "Cabo"),
@@ -12,7 +12,7 @@ public enum TipoAcessorio {
     private final Long ID;
     private final String NAME;
 
-    TipoAcessorio(Long id, String name) {
+    AcessorioTipo(Long id, String name) {
         this.ID = id;
         this.NAME = name;
     }
@@ -25,8 +25,8 @@ public enum TipoAcessorio {
         return NAME;
     }
 
-    public static TipoAcessorio valueOf(Long id){
-        for (TipoAcessorio t : TipoAcessorio.values()){
+    public static AcessorioTipo valueOf(Long id){
+        for (AcessorioTipo t : AcessorioTipo.values()){
             if (t.getID() == id){
                 return t;
             }

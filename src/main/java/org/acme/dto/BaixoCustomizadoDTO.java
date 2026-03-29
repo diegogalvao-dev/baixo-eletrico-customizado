@@ -1,23 +1,21 @@
 package org.acme.dto;
 
-import org.acme.model.CorBaixo;
-import org.acme.model.ModeloBaseBaixo;
+import org.acme.model.BaixoCor;
+import org.acme.model.BaixoModeloBase;
+import org.acme.model.BaixoStatus;
+import org.acme.model.ConfiguracaoEletronica;
 
 import java.util.List;
 
-/**
- * DTO para criar ou atualizar um BaixoCustomizado.
- * Este record agora inclui um objeto aninhado para a configuração eletrônica,
- * refletindo a relação de composição.
- */
 public record BaixoCustomizadoDTO(
-        ModeloBaseBaixo modeloBaseBaixo,
-        CorBaixo corBaixo,
-        Double priceEstimated,
+        BaixoModeloBase baixoModeloBase,
+        String description,
+        BaixoCor baixoCor,
+        ConfiguracaoEletronica configuracaoEletronica,
+        List<Long> captadorList,
+        Double estimatedPrice,
+        BaixoStatus baixoStatus,
+        Long pessoaCliente,
+        Long pessoaLuthier
 
-        // Em vez de um ID, agora recebemos um objeto DTO completo para criar a ConfiguracaoEletronica.
-        ConfiguracaoEletronicaDTO configuracaoEletronica,
-
-        List<Long> captadoresListIds,
-        List<Long> acessoriosListIds) {
-}
+) { }

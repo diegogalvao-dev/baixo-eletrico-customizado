@@ -4,18 +4,16 @@ package org.acme.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum TipoCaptador {
+public enum CaptadorPosicao {
 
-    SINGLE(1L, "Single"),
-    HUMBUCKER(2L, "Humbercker"),
-    PIEZO(3L, "Piezo"),
-    SOAPBAR(4L, "Soapbar"),
-    CUSTOM(5L, "Custom");
+    BRANCO(1L, "Branco"),
+    MEIO(2L, "Meio"),
+    PONTE(3L, "Ponte");
 
     private final Long ID;
     private final String NAME;
 
-    TipoCaptador(Long id, String name) {
+    CaptadorPosicao(Long id, String name) {
         this.ID = id;
         this.NAME = name;
     }
@@ -28,8 +26,8 @@ public enum TipoCaptador {
         return NAME;
     }
 
-    public static TipoCaptador valueOf(Long id){
-        for (TipoCaptador t : TipoCaptador.values()){
+    public static CaptadorPosicao valueOf(Long id){
+        for (CaptadorPosicao t : CaptadorPosicao.values()){
             if (t.getID() == id){
                 return t;
             }

@@ -3,31 +3,32 @@ package org.acme.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Acessorios extends DefaultEntity{
+public class Acessorio extends Produto{
 
     @Column(nullable = false)
-    private TipoAcessorio tipoAcessorio;
+    private AcessorioTipo acessorioTipo;
 
     @Column(nullable = false)
-    private Double price;
+    private String material;
 
     @Column(nullable = false)
-    private String materia
+    private Double tamanho;
 
-    public TipoAcessorio getTipoAcessorio() {
-        return tipoAcessorio;
+
+    public Double getTamanho() {
+        return tamanho;
     }
 
-    public void setTipoAcessorio(TipoAcessorio tipoAcessorio) {
-        this.tipoAcessorio = tipoAcessorio;
+    public void setTamanho(Double tamanho) {
+        this.tamanho = tamanho;
     }
 
-    public double getPrice() {
-        return price;
+    public AcessorioTipo getAcessorioTipo() {
+        return acessorioTipo;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setAcessorioTipo(AcessorioTipo acessorioTipo) {
+        this.acessorioTipo = acessorioTipo;
     }
 
     public String getMaterial() {

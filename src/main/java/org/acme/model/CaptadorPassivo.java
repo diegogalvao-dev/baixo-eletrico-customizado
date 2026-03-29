@@ -1,4 +1,31 @@
 package org.acme.model;
 
-public class CaptadorPassivo {
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+
+@Entity
+public class CaptadorPassivo extends Captador {
+
+    @Column(nullable = false)
+    private Double resistencia;
+
+    @Column(nullable = false)
+    private Integer numeroBobinas;
+
+    public Double getResistencia() {
+        return resistencia;
+    }
+
+    public void setResistencia(Double resistencia) {
+        this.resistencia = resistencia;
+    }
+
+    public Integer getNumeroBobinas() {
+        return numeroBobinas;
+    }
+
+    public void setNumeroBobinas(Integer numeroBobinas) {
+        this.numeroBobinas = numeroBobinas;
+    }
 }

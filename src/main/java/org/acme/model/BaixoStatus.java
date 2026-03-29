@@ -1,6 +1,6 @@
 package org.acme.model;
 
-public enum StatusConstrucao {
+public enum BaixoStatus {
 
     PROJETANDO(1L, "PROJETANDO"),
     EM_CONSTRUCAO(2L, "EM CONSTRUÇÃO"),
@@ -11,7 +11,7 @@ public enum StatusConstrucao {
     private final Long ID;
     private final String NAME;
 
-    StatusConstrucao(Long id, String name) {
+    BaixoStatus(Long id, String name) {
         this.ID = id;
         this.NAME = name;
     }
@@ -24,8 +24,8 @@ public enum StatusConstrucao {
         return NAME;
     }
 
-    public static StatusConstrucao valueOf(Long id){
-        for (StatusConstrucao t : StatusConstrucao.values()){
+    public static BaixoStatus valueOf(Long id){
+        for (BaixoStatus t : BaixoStatus.values()){
             if (t.getID() == id){
                 return t;
             }

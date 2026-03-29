@@ -1,17 +1,35 @@
 package org.acme.dto;
 
-import org.acme.model.Acessorios;
-import org.acme.model.TipoAcessorio;
+import java.util.List;
 
-public record AcessorioResponseDTO(Long id, TipoAcessorio tipoAcessorio, String marcaAcessorios, String material) {
+import org.acme.model.Acessorio;
+import org.acme.model.AcessorioTipo;
 
-    public static AcessorioResponseDTO valueOf(Acessorios acessorios){
+public record AcessorioResponseDTO(
+        Long id,
+        AcessorioTipo acessorioTipo,
+        String material,
+        Double tamanho,
+        String name,
+        Double price,
+        Integer quantidadeEstoque,
+        Long fornecedor) {
 
-        if (acessorios == null){
-            return null;
-        }
+        public static AcessorioResponseDTO valueOf(Acessorio acessorio){
 
-        return new AcessorioResponseDTO(acessorios.getId(), acessorios.getTipoAcessorio(), acessorios.getMarcaAcessorios(), acessorios.getMaterial());
+            if (acessorio == null){
+                return null;
+            }
+
+            return new AcessorioResponseDTO(
+                acessorio.getId(),
+                acessorio.getAcessorioTipo(),
+                acessorio.getMaterial(),
+                acessorio.getTamanho(),
+                acessorio.getName(),
+                acessorio.getPrice(),
+                acessorio.getQuantidadeEstoque(),
+                acessorio.getFornecedor().getId());
 
     }
 

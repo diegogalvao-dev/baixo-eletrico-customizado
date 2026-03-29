@@ -2,19 +2,19 @@ package org.acme.model.converterjpa;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import org.acme.model.CorBaixo;
+import org.acme.model.BaixoCor;
 
 @Converter(autoApply = true)
-public class CorBaixoConverter implements AttributeConverter<CorBaixo, Long> {
+public class CorBaixoConverter implements AttributeConverter<BaixoCor, Long> {
 
     @Override
-    public Long convertToDatabaseColumn(CorBaixo corBaixo){
-        return corBaixo == null ? null : corBaixo.getID();
+    public Long convertToDatabaseColumn(BaixoCor baixoCor){
+        return baixoCor == null ? null : baixoCor.getID();
     }
 
     @Override
-    public CorBaixo convertToEntityAttribute(Long id){
-        return CorBaixo.valueOf(id);
+    public BaixoCor convertToEntityAttribute(Long id){
+        return BaixoCor.valueOf(id);
     }
 
 }

@@ -2,19 +2,19 @@ package org.acme.model.converterjpa;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import org.acme.model.TipoAcessorio;
+import org.acme.model.AcessorioTipo;
 
 @Converter(autoApply = true)
-public class TipoAcessorioConverter implements AttributeConverter<TipoAcessorio, Long> {
+public class TipoAcessorioConverter implements AttributeConverter<AcessorioTipo, Long> {
 
     @Override
-    public Long convertToDatabaseColumn(TipoAcessorio tipoAcessorio){
-        return tipoAcessorio == null ? null : tipoAcessorio.getID();
+    public Long convertToDatabaseColumn(AcessorioTipo acessorioTipo){
+        return acessorioTipo == null ? null : acessorioTipo.getID();
     }
 
     @Override
-    public TipoAcessorio convertToEntityAttribute(Long id){
-        return TipoAcessorio.valueOf(id);
+    public AcessorioTipo convertToEntityAttribute(Long id){
+        return AcessorioTipo.valueOf(id);
     }
 
 }

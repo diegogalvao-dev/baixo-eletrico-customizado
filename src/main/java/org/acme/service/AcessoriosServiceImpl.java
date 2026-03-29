@@ -5,8 +5,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.acme.dto.AcessorioResponseDTO;
 import org.acme.dto.AcessoriosDTO;
-import org.acme.model.Acessorios;
+import org.acme.model.Acessorio;
 import org.acme.repository.AcessoriosRepository;
+import org.acme.repository.FornecedorRepository;
 
 import java.util.List;
 
@@ -16,19 +17,26 @@ public class AcessoriosServiceImpl implements AcessoriosService{
     @Inject
     AcessoriosRepository acessoriosRepository;
 
+    @Inject
+    FornecedorRepository fornecedorRepository;
+
     @Override
     @Transactional
     public AcessorioResponseDTO create(AcessoriosDTO dto){
 
-        Acessorios newAcessorios = new Acessorios();
+        Acessorio newAcessorio = new Acessorio();
 
-        newAcessorios.setTipoAcessorio(dto.tipoAcessorio());
-        newAcessorios.setMarcaAcessorios(dto.marcaAcessorios());
-        newAcessorios.setMaterial(dto.material());
+        newAcessorio.setAcessorioTipo(dto.acessorioTipo());
+        newAcessorio.setMaterial(dto.material());
+        newAcessorio.setTamanho(dto.tamanho());
+        newAcessorio.setName(dto.name());
+        newAcessorio.setPrice(dto.price());
+        newAcessorio.setQuantidadeEstoque(dto.quantidadeEstoque());
+        newAcessorio.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
 
-        acessoriosRepository.persist(newAcessorios);
+        acessoriosRepository.persist(newAcessorio);
 
-        return AcessorioResponseDTO.valueOf(newAcessorios);
+        return AcessorioResponseDTO.valueOf(newAcessorio);
 
     }
 
@@ -36,11 +44,15 @@ public class AcessoriosServiceImpl implements AcessoriosService{
     @Transactional
     public void update(long id, AcessoriosDTO dto) {
 
-        Acessorios modifyAce = acessoriosRepository.findById(id);
+        Acessorio modifyAce = acessoriosRepository.findById(id);
 
-        modifyAce.setTipoAcessorio(dto.tipoAcessorio());
-        modifyAce.setMarcaAcessorios(dto.marcaAcessorios());
+        modifyAce.setAcessorioTipo(dto.acessorioTipo());
         modifyAce.setMaterial(dto.material());
+        modifyAce.setTamanho(dto.tamanho());
+        modifyAce.setName(dto.name());
+        modifyAce.setPrice(dto.price());
+        modifyAce.setQuantidadeEstoque(dto.quantidadeEstoque());
+        modifyAce.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
 
     }
 
