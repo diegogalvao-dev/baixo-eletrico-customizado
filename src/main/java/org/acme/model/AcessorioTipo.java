@@ -2,12 +2,12 @@ package org.acme.model;
 
 public enum TipoAcessorio {
 
-    PONTE(1L, "Ponte"),
-    TARRAXA(2L, "Tarraxa"),
-    ESCUDO(3L, "Escudo"),
-    KNOB(4L, "Knob"),
-    CAPA(5L, "Capa"),
-    CUSTOM(6L, "Custom");
+    CORREIA(1L, "Correia"),
+    CABO(2L, "Cabo"),
+    PALHETA(3L, "Palheta"),
+    CASE(4L, "Case"),
+    AFINADOR(5L, "Afinador"),
+    SUPORTE(6L, "Suporte");
 
     private final Long ID;
     private final String NAME;
