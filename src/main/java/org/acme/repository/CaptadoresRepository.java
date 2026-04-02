@@ -11,6 +11,8 @@ import org.acme.model.Captador;
 @ApplicationScoped
 public class CaptadoresRepository implements PanacheRepository<Captador> {
 
-    
+    public List<Captador> listByIds(List<Long> ids) {
+    return list("id in ?1", ids);
+}
 
 }

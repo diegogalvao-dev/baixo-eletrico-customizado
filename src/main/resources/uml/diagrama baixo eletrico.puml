@@ -134,6 +134,6 @@ class CaptadorPassivo
 Captador <|-- CaptadorAtivo
 Captador <|-- CaptadorPassivo
 
-BaixoCustomizado "1" *-- "N" Captador
+BaixoCustomizado "N" *-- "N" Captador
 
 @enduml

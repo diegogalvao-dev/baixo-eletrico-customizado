@@ -28,4 +28,6 @@ public class CaptadorAtivo extends Captador {
         PossuiAmplificador = possuiAmplificador;
     }
 
+    
+
 }

@@ -1,9 +1,13 @@
 package org.acme.dto;
 
 import org.acme.model.CaptadorAtivo;
+import org.acme.model.CaptadorPosicao;
 
 public record CaptadorAtivoResponseDTO(
     Long id,
+    String marca,
+    Double price,
+    CaptadorPosicao captadorPosicao,
     Boolean possuiBateria,
     Boolean possuiAmplificador
 ) { 
@@ -16,6 +20,9 @@ public record CaptadorAtivoResponseDTO(
 
         return new CaptadorAtivoResponseDTO(
             captadorAtivo.getId(),
+            captadorAtivo.getMarca(),
+            captadorAtivo.getPrice(),
+            captadorAtivo.getCaptadorPosicao(),
             captadorAtivo.getPossuiBateria(),
             captadorAtivo.getPossuiAmplificador());
 }

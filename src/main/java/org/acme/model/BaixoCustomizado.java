@@ -19,8 +19,12 @@ public class BaixoCustomizado extends DefaultEntity {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private ConfiguracaoEletronica configuracaoEletronica;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Captador> captador;
+    @ManyToMany
+    @JoinTable(
+        name = "baixo_captador",
+        joinColumns = @JoinColumn(name = "baixo_id"),
+        inverseJoinColumns = @JoinColumn(name = "captador_id"))
+    private List<Captador> captadores;
 
     @Column(nullable = false)
     private Double estimatedPrice;
@@ -69,11 +73,11 @@ public class BaixoCustomizado extends DefaultEntity {
     }
 
     public List<Captador> getCaptador() {
-        return captador;
+        return captadores;
     }
 
-    public void setCaptador(List<Captador> captador) {
-        this.captador = captador;
+    public void setCaptador(List<Captador> captadores) {
+        this.captadores = captadores;
     }
 
     public Double getEstimatedPrice() {

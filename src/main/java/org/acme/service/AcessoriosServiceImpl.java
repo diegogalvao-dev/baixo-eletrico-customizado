@@ -32,8 +32,9 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         newAcessorio.setName(dto.name());
         newAcessorio.setPrice(dto.price());
         newAcessorio.setQuantidadeEstoque(dto.quantidadeEstoque());
-        newAcessorio.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
-
+        if(dto.fornecedor() != null){
+            newAcessorio.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
+        }    
         acessoriosRepository.persist(newAcessorio);
 
         return AcessorioResponseDTO.valueOf(newAcessorio);
@@ -52,8 +53,9 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         modifyAce.setName(dto.name());
         modifyAce.setPrice(dto.price());
         modifyAce.setQuantidadeEstoque(dto.quantidadeEstoque());
-        modifyAce.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
-
+        if(dto.fornecedor() != null){
+            modifyAce.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
+        }
     }
 
     @Override
