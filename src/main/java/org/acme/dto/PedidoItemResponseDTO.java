@@ -8,8 +8,8 @@ public record PedidoItemResponseDTO(
     Long id,
     Integer quantidade,
     Double precoUnitario,
-    Produto produto,
-    Pedido pedido
+    Long produtoId,
+    Long pedidoId
 
 ) { 
 
@@ -23,8 +23,9 @@ public record PedidoItemResponseDTO(
             pedidoItem.getId(),
             pedidoItem.getQuantidade(),
             pedidoItem.getPrecoUnitario(),
-            pedidoItem.getProduto(),
-            pedidoItem.getPedido());
+            pedidoItem.getProduto().getId(),
+            pedidoItem.getPedido().getId()
+        );
     }
 
 } 

@@ -7,7 +7,7 @@ public record PedidoItemDTO(
 
     Integer quantidade,
     Double precoUnitario,
-    Produto produto,
-    Pedido pedido
+    Long produto,
+    Long pedido
 
 ) { }
