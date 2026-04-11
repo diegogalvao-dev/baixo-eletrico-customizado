@@ -4,6 +4,10 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
+
+import org.acme.dto.AcessorioResponseDTO;
 import org.acme.dto.AcessoriosDTO;
 import org.acme.service.AcessoriosService;
 
@@ -16,8 +20,27 @@ public class AcessoriosResource {
     AcessoriosService acessoriosService;
 
     @GET
-    public Response findAll(){
-        return Response.ok().entity(acessoriosService.findAll()).build();
+    @Path("/buscarTodos")
+    public List<AcessorioResponseDTO> buscarTodos(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) { 
+        return acessoriosService.findAll(page, pageSize);
+    }
+
+    @GET
+    @Path("/search")
+    public List<AcessorioResponseDTO> search(@QueryParam("query") String query, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
+        return acessoriosService.search(query, page, pageSize);
+    }
+
+    @GET
+    @Path("/count")
+    public Long total() {
+        return acessoriosService.count();
+    }
+
+    @GET
+    @Path("/{id}")
+    public AcessorioResponseDTO findById(@PathParam("id") long id) {
+        return acessoriosService.findById(id);
     }
 
     @POST

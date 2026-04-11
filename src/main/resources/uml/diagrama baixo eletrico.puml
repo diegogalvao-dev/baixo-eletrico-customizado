@@ -133,6 +133,7 @@ class CaptadorPassivo
 
 Captador <|-- CaptadorAtivo
 Captador <|-- CaptadorPassivo
+Captador --> PosicaoCaptador
 
 BaixoCustomizado "N" *-- "N" Captador
 

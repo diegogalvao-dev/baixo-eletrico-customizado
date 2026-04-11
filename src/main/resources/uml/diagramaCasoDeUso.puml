@@ -1,0 +1,51 @@
+@startuml
+title Sistema de Loja de Baixos e Luthieria
+
+left to right direction
+
+actor Cliente
+actor Luthier
+actor Administrador
+
+' =====================
+' Casos de Uso - Cliente
+' =====================
+Cliente --> (Realizar Pedido)
+Cliente --> (Consultar Produtos)
+Cliente --> (Encomendar Baixo Customizado)
+Cliente --> (Acompanhar Pedido)
+
+' =====================
+' Casos de Uso - Luthier
+' =====================
+Luthier --> (Construir Baixo Customizado)
+Luthier --> (Atualizar Status de Construção)
+Luthier --> (Configurar Baixo Customizado)
+
+' =====================
+' Casos de Uso - Administrador
+' =====================
+Administrador --> (Gerenciar Cliente)
+Administrador --> (Gerenciar Luthier)
+Administrador --> (Gerenciar Fornecedor)
+Administrador --> (Gerenciar Produto)
+Administrador --> (Gerenciar Baixo)
+Administrador --> (Gerenciar Acessorio)
+Administrador --> (Gerenciar Pedido)
+Administrador --> (Gerenciar ItemPedido)
+Administrador --> (Gerenciar Captador)
+Administrador --> (Gerenciar Configuracao Eletronica)
+
+' =====================
+' Relacionamentos
+' =====================
+(Realizar Pedido) --> (Gerenciar Pedido)
+(Realizar Pedido) --> (Gerenciar ItemPedido)
+
+(Encomendar Baixo Customizado) --> (Gerenciar Baixo Customizado)
+(Construir Baixo Customizado) --> (Gerenciar Baixo Customizado)
+
+(Configurar Baixo Customizado) --> (Gerenciar Captador)
+(Configurar Baixo Customizado) --> (Gerenciar Configuracao Eletronica)
+
+@enduml

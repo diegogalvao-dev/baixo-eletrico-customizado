@@ -11,6 +11,9 @@ public interface AcessoriosService {
     void update(long id, AcessoriosDTO acessoriosDTO);
     void delete(long id);
 
-    List<AcessorioResponseDTO> findAll();
+    List<AcessorioResponseDTO> findAll(Integer page, Integer pageSize);
+    List<AcessorioResponseDTO> search(String term, Integer page, Integer pageSize);
+    long count();
+    AcessorioResponseDTO findById(long id);
 
 }

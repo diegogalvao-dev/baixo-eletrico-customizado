@@ -1,7 +1,5 @@
 package org.acme.dto;
 
-import java.util.List;
-
 import org.acme.model.Acessorio;
 import org.acme.model.AcessorioTipo;
 

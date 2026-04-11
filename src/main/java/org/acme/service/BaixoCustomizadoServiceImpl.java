@@ -17,7 +17,6 @@ import org.acme.repository.PessoaClienteRepository;
 import org.acme.repository.PessoaLuthierRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @ApplicationScoped
 public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{

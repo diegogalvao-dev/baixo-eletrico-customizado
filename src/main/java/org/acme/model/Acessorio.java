@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 public class Acessorio extends Produto{
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AcessorioTipo acessorioTipo;
 

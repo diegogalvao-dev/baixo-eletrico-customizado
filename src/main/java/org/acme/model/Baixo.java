@@ -2,16 +2,20 @@ package org.acme.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 public class Baixo extends Produto {
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BaixoModeloBase baixoModeloBase;
 
     @Column(nullable = false)
     private Integer numeroDeCordas;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BaixoCor baixoCor;
 

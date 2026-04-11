@@ -12,7 +12,7 @@ public abstract class Produto extends DefaultEntity{
     @Column(nullable = false)
     private Double price;
 
-    @Column(nullable = false)
+    @Column
     private Integer quantidadeEstoque;
 
     @ManyToOne

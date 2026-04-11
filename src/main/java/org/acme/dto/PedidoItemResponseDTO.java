@@ -1,8 +1,6 @@
 package org.acme.dto;
 
-import org.acme.model.Pedido;
 import org.acme.model.PedidoItem;
-import org.acme.model.Produto;
 
 public record PedidoItemResponseDTO(
     Long id,

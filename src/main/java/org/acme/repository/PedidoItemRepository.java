@@ -11,7 +11,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class PedidoItemRepository implements PanacheRepository<PedidoItem> {
 
     public List<PedidoItem> findByIds(List<Long> ids) {
-    return list("id in ?1", ids);
-}
+        return list("id in ?1", ids);
+    }
+
+    public long countByProdutoId(Long produtoId) {
+        return count("produto.id = ?1", produtoId);
+    }
 
 }
