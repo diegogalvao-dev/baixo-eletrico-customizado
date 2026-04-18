@@ -1,8 +1,19 @@
 package org.acme.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import jakarta.persistence.*;
 
 @Entity
+@JsonTypeInfo(
+  use = JsonTypeInfo.Id.NAME, 
+  include = JsonTypeInfo.As.PROPERTY, 
+  property = "type") // No JSON você enviará "type": "ativo" ou "passivo"
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = CaptadorAtivo.class, name = "ativo"),
+  @JsonSubTypes.Type(value = CaptadorPassivo.class, name = "passivo")
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Captador extends DefaultEntity{
 
@@ -12,6 +23,7 @@ public abstract class Captador extends DefaultEntity{
     @Column(nullable = false)
     private Double price;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CaptadorPosicao captadorPosicao;
 

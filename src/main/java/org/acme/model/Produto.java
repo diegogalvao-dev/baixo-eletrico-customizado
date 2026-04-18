@@ -1,9 +1,14 @@
 package org.acme.model;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@SQLRestriction("ativo = true")
+@SQLDelete(sql = "UPDATE produto SET ativo = false WHERE id = ?") // Alvo específico
 public abstract class Produto extends DefaultEntity{
 
     @Column(nullable = false)
@@ -50,4 +55,6 @@ public abstract class Produto extends DefaultEntity{
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
     }
+
+
 }

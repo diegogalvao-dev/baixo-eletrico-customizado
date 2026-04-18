@@ -1,9 +1,6 @@
 package org.acme.model;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum BaixoModeloBase {
 
     JAZZ_BASS(1L, "Jazz Bass"),

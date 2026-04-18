@@ -4,7 +4,10 @@ import org.acme.model.BaixoCor;
 import org.acme.model.BaixoCustomizado;
 import org.acme.model.BaixoModeloBase;
 import org.acme.model.BaixoStatus;
+import org.acme.model.Captador;
 import org.acme.model.ConfiguracaoEletronica;
+import org.acme.model.PessoaCliente;
+import org.acme.model.PessoaLuthier;
 
 import java.util.List;
 
@@ -13,7 +16,7 @@ public record BaixoCustomizadoResponseDTO(
         BaixoModeloBase baixoModeloBase,
         String description,
         BaixoCor baixoCor,
-        ConfiguracaoEletronica configuracaoEletronica,
+        Long configuracaoEletronica,
         List<Long> captadorList,
         Double estimatedPrice,
         BaixoStatus baixoStatus,
@@ -32,8 +35,8 @@ public record BaixoCustomizadoResponseDTO(
                 baixoCustomizado.getBaixoModeloBase(),
                 baixoCustomizado.getDescription(),
                 baixoCustomizado.getBaixoCor(),
-                baixoCustomizado.getConfiguracaoEletronica(),
-                baixoCustomizado.getCaptador().stream().map(c -> c.getId()).toList(),
+                baixoCustomizado.getConfiguracaoEletronica().getId(),
+                baixoCustomizado.getCaptador().stream().map(Captador::getId).toList(),
                 baixoCustomizado.getEstimatedPrice(),
                 baixoCustomizado.getBaixoStatus(),
                 baixoCustomizado.getPessoaCliente().getId(),

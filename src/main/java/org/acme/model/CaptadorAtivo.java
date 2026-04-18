@@ -6,10 +6,10 @@ import jakarta.persistence.Entity;
 @Entity
 public class CaptadorAtivo extends Captador {
 
-    @Column(nullable = false)
+    @Column
     private Boolean PossuiBateria;
 
-    @Column(nullable = false)
+    @Column
     private Boolean PossuiAmplificador;
 
     public Boolean getPossuiBateria() {

@@ -11,6 +11,9 @@ public interface BaixoService {
     void update(long id, BaixoDTO baixoDTO);
     void delete(long id);
 
-    List<BaixoResponseDTO> findAll();
+    List<BaixoResponseDTO> findAll(Integer page, Integer pageSize);
+    List<BaixoResponseDTO> search(String term, Integer page, Integer pageSize);
+    long count();
+    BaixoResponseDTO findById(long id);
 
 }

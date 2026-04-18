@@ -1,5 +1,6 @@
 package org.acme.repository;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -11,7 +12,12 @@ import org.acme.model.Captador;
 public class CaptadoresRepository implements PanacheRepository<Captador> {
 
     public List<Captador> listByIds(List<Long> ids) {
-    return list("id in ?1", ids);
-}
+        return list("id in ?1", ids);
+    }
+
+    public PanacheQuery<Captador> searchByTerm(String term) {
+        String q = term.toLowerCase() + "%";
+        return find("lower(marca) like ?1", q);
+    }
 
 }

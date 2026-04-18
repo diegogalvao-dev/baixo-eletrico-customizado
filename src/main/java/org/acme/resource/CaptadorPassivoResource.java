@@ -5,7 +5,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
+
 import org.acme.dto.CaptadorPassivoDTO;
+import org.acme.dto.CaptadorPassivoResponseDTO;
 import org.acme.service.CaptadorPassivoService;
 
 @Path("captador-passivo")
@@ -17,8 +20,27 @@ public class CaptadorPassivoResource {
     CaptadorPassivoService captadorPassivoService;
 
     @GET
-    public Response findAll(){
-        return Response.ok().entity(captadorPassivoService.findAll()).build();
+    @Path("/buscarTodos")
+    public List<CaptadorPassivoResponseDTO> buscarTodos(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) { 
+        return captadorPassivoService.findAll(page, pageSize);
+    }
+
+        @GET
+    @Path("/search")
+    public List<CaptadorPassivoResponseDTO> search(@QueryParam("query") String query, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
+        return captadorPassivoService.search(query, page, pageSize);
+    }
+
+    @GET
+    @Path("/count")
+    public Long total() {
+        return captadorPassivoService.count();
+    }
+
+    @GET
+    @Path("/{id}")
+    public CaptadorPassivoResponseDTO findById(@PathParam("id") long id) {
+        return captadorPassivoService.findById(id);
     }
 
     @POST

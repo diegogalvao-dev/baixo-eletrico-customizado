@@ -7,13 +7,13 @@ import org.acme.model.BaixoModeloBase;
 public record BaixoResponseDTO(
 
     Long id,
-    BaixoModeloBase baixoModeloBaixo,
+    BaixoModeloBase baixoModeloBase,
     Integer numeroCordas,
     BaixoCor baixoCor,
     String name,
     Double price,
     Integer quantidadeEstoque,
-    Long fornecedorId
+    Long fornecedor
 
 ) {
 

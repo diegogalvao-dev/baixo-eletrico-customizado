@@ -7,6 +7,9 @@ import org.acme.dto.CaptadorPassivoResponseDTO;
 import org.acme.dto.CaptadorPassivoDTO;
 import org.acme.model.CaptadorPassivo;
 import org.acme.repository.CaptadorPassivoRepository;
+import org.acme.exception.ValidationException;
+
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 import java.util.List;
 
@@ -54,8 +57,41 @@ public class CaptadorPassivoServiceImpl implements CaptadorPassivoService{
     }
 
     @Override
-    public List<CaptadorPassivoResponseDTO> findAll() {
-        return captadorPassivoRepository.findAll().stream().map(e -> CaptadorPassivoResponseDTO.valueOf(e)).toList();
+    public List<CaptadorPassivoResponseDTO> findAll(Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+        PanacheQuery<CaptadorPassivo> query = captadorPassivoRepository.findAll().page(pageNumber, size);
+        return query.list().stream().map(CaptadorPassivoResponseDTO::valueOf).toList();
+    }
+
+    @Override
+    public List<CaptadorPassivoResponseDTO> search(String term, Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+
+        PanacheQuery<CaptadorPassivo> query;
+        if (term == null || term.isBlank()) {
+            query = captadorPassivoRepository.findAll();
+        } else {
+            query = captadorPassivoRepository.searchByTerm(term);
+        }
+
+        query = query.page(pageNumber, size);
+        return query.list().stream().map(CaptadorPassivoResponseDTO::valueOf).toList();
+    }
+
+    @Override
+    public long count() {
+        return captadorPassivoRepository.findAll().count();
+    }
+
+    @Override
+    public CaptadorPassivoResponseDTO findById(long id) {
+        CaptadorPassivo captadorPassivo = captadorPassivoRepository.findById(id);
+        if (captadorPassivo == null) {
+            throw ValidationException.of("captadorPassivo", "Captador passivo não encontrado");
+        }
+        return CaptadorPassivoResponseDTO.valueOf(captadorPassivo);
     }
 
 }

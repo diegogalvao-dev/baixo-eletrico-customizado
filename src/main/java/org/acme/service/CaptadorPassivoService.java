@@ -11,6 +11,9 @@ public interface CaptadorPassivoService {
     void update(long id, CaptadorPassivoDTO captadorPassivoDTO);
     void delete(long id);
 
-    List<CaptadorPassivoResponseDTO> findAll();
+    List<CaptadorPassivoResponseDTO> findAll(Integer page, Integer pageSize);
+    List<CaptadorPassivoResponseDTO> search(String term, Integer page, Integer pageSize);
+    long count();
+    CaptadorPassivoResponseDTO findById(long id);
 
 }

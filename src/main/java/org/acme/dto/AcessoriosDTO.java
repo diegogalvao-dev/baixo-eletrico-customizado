@@ -3,6 +3,7 @@ package org.acme.dto;
 import org.acme.model.AcessorioTipo;
 
 public record AcessoriosDTO(
+        
         AcessorioTipo acessorioTipo,
         String material,
         Double tamanho,

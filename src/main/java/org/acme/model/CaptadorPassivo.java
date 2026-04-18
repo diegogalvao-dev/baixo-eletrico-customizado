@@ -7,10 +7,10 @@ import jakarta.persistence.Entity;
 @Entity
 public class CaptadorPassivo extends Captador {
 
-    @Column(nullable = false)
+    @Column
     private Double resistencia;
 
-    @Column(nullable = false)
+    @Column
     private Integer numeroBobinas;
 
     public Double getResistencia() {

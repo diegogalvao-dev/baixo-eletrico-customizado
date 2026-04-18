@@ -1,109 +1,169 @@
--- Inserir fornecedores
-INSERT INTO fornecedor (id, name, cnpj) VALUES (1, 'Guitar Pro Supplies', '12.345.678/0001-10');
-INSERT INTO fornecedor (id, name, cnpj) VALUES (2, 'MusicGear Brasil', '23.456.789/0001-20');
-INSERT INTO fornecedor (id, name, cnpj) VALUES (3, 'Audio Professional', '34.567.890/0001-30');
+---
+-- 1. FORNECEDORES (ID 100+)
+---
+INSERT INTO fornecedor (id, name, cnpj, ativo) VALUES (100, 'Guitar Pro Supplies', '12.345.678/0001-10', true);
+INSERT INTO fornecedor (id, name, cnpj, ativo) VALUES (101, 'MusicGear Brasil', '23.456.789/0001-20', true);
+INSERT INTO fornecedor (id, name, cnpj, ativo) VALUES (102, 'Audio Professional', '34.567.890/0001-30', true);
 
--- Inserir acessórios (usando apenas INSERT INTO produto com dados completos)
--- Correias
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (1, 'Correia Couro Premium 5cm', 35.50, 50, 1);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (1, 'CORREIA', 'Couro', 5.0);
+---
+-- 2. ACESSÓRIOS (ID 110+)
+---
+-- 1. Cabo Monster Bass 6m
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (130, 'Cabo Monster Bass 6m', 280.00, 10, 100, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (130, 'CABO', 'Cobre Premium', 6.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (2, 'Correia Nylon 4cm', 22.00, 80, 2);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (2, 'CORREIA', 'Nylon', 4.0);
+-- 2. Correia Comfort Strapp
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (131, 'Correia Comfort G', 220.00, 15, 101, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (131, 'CORREIA', 'Neoprene/Lycra', 10.0);
 
--- Cabos
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (3, 'Cabo P10 3 Metros', 45.00, 40, 1);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (3, 'CABO', 'Cobre', 3.0);
+-- 3. Case Gator TSA Jazz/Precision
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (132, 'Case Gator TSA Bass', 850.00, 4, 100, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (132, 'CASE', 'Polietileno', 120.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (4, 'Cabo P10 5 Metros', 65.00, 30, 2);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (4, 'CABO', 'Cobre', 5.0);
+-- 4. Afinador Boss TU-05 Clip
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (133, 'Afinador Boss Clip', 145.00, 25, 102, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (133, 'AFINADOR', 'Plástico/LCD', 5.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (17, 'Cabo P10 5 Metros', 65.00, 30, 2);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (17, 'CABO', 'Cobre', 5.0);
+-- 5. Suporte Hercules com Trava
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (134, 'Suporte Hercules GS414B', 290.00, 12, 100, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (134, 'SUPORTE', 'Aço/Espuma', 70.0);
 
--- Palhetas
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (5, 'Palheta Tortex 0.88mm', 8.50, 200, 1);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (5, 'PALHETA', 'Tortex', 0.88);
+-- 6. Kit de Ferramentas Ernie Ball
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (135, 'Kit Ferramentas EB', 320.00, 8, 101, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (135, 'AFINADOR', 'Aço Vanádio', 15.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (6, 'Palheta Nylon 1.0mm', 6.00, 250, 3);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (6, 'PALHETA', 'Nylon', 1.0);
+-- 7. Cabo Fender Deluxe 3m Tweed
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (136, 'Cabo Fender Tweed 3m', 160.00, 20, 100, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (136, 'CABO', 'Tecido/Cobre', 3.0);
 
--- Cases
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (7, 'Case Rígido Premium', 280.00, 15, 2);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (7, 'CASE', 'Plástico Reforçado', 85.0);
+-- 8. Correia Ibanez Powerpad
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (137, 'Correia Ibanez Preta', 95.00, 30, 100, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (137, 'CORREIA', 'Poliéster Acolchoado', 7.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (8, 'Case Soft Bag', 120.00, 25, 1);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (8, 'CASE', 'Nylon', 80.0);
+-- 9. Soft Case Mono Vertigo
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (138, 'Mono Vertigo Bass Case', 1400.00, 2, 102, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (138, 'CASE', 'Sharkskin/Borracha', 125.0);
 
--- Afinador
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (9, 'Afinador Digital Cromático', 95.00, 35, 3);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (9, 'AFINADOR', 'Plástico', 8.0);
+-- 10. Afinador Pedal TC Polytune 3
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (139, 'TC Polytune 3 Pedal', 750.00, 6, 102, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (139, 'AFINADOR', 'Alumínio', 10.0);
 
--- Suportes
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (10, 'Suporte Estante Madeira', 120.00, 20, 1);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (10, 'SUPORTE', 'Madeira Pinho', 60.0);
+-- 11. Cabo Santo Angelo Ninja 5m
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (140, 'Cabo Ninja 5m', 85.00, 50, 101, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (140, 'CABO', 'Cobre LNE', 5.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (11, 'Suporte Parede Metal', 85.00, 30, 2);
-INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (11, 'SUPORTE', 'Aço Inoxidável', 45.0);
+-- 12. Correia Basso de Couro Vintage
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (141, 'Correia Basso Vintage', 110.00, 18, 101, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (141, 'CORREIA', 'Couro Ecológico', 6.0);
 
--- Inserir baixos
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (12, 'Fender Jazz Bass Classic', 4500.00, 5, 1);
-INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (12, 'JAZZ_BASS', 4, 'PRETO');
+-- 13. Kit de Polimento Dunlop 65
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (142, 'Dunlop 65 Care Kit', 130.00, 15, 102, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (142, 'AFINADOR', 'Cera/Spray', 0.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (13, 'Fender Precision Bass Deluxe', 3800.00, 3, 2);
-INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (13, 'PRECISION', 4, 'SUNBURST');
+-- 14. Suporte Parede Stay
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (143, 'Suporte Parede Stay', 45.00, 40, 101, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (143, 'SUPORTE', 'Aço Carbono', 20.0);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (14, 'Music Man Stingray 4', 5200.00, 2, 3);
-INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (14, 'STINGRAY', 4, 'VERMELHO');
+-- 15. Palhetas Jim Dunlop (Pack 12)
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (144, 'Pack 12 Palhetas Dunlop', 65.00, 100, 100, true);
+INSERT INTO acessorio (id, acessoriotipo, material, tamanho) VALUES (144, 'PALHETA', 'Delrin', 1.14);
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (15, 'Gibson Thunderbird IV', 4800.00, 4, 1);
-INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (15, 'THUNDERBIRD', 4, 'BRANCO');
+---
+-- 3. BAIXOS DE LINHA (ID 200+)
+---
+-- 1. Ibanez SR500
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (220, 'Ibanez SR500E', 4200.00, 3, 100, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (220, 'STINGRAY', 4, 'SUNBURST');
 
-INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid) VALUES (16, 'Baixo Custom 5 Cordas', 3500.00, 6, 2);
-INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (16, 'CUSTOM', 5, 'AZUL');
+-- 2. Yamaha BB434
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (221, 'Yamaha BB434 Teal', 3100.00, 5, 101, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (221, 'PRECISION', 4, 'AZUL');
 
--- -- Inserir pessoas (clientes e luthiers)
--- INSERT INTO pessoa (id, name, email) VALUES (1, 'Ana Silva', 'ana.silva@example.com');
--- INSERT INTO pessoacliente (id, cpf) VALUES (1, '12345678901');
+-- 3. Warwick RockBass Corvette
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (222, 'Warwick Corvette Basic', 5500.00, 2, 102, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (222, 'STINGRAY', 4, 'PRETO');
 
--- INSERT INTO pessoa (id, name, email) VALUES (2, 'Carlos Pereira', 'carlos.pereira@example.com');
--- INSERT INTO pessoacliente (id, cpf) VALUES (2, '98765432100');
+-- 4. Music Man STINGRAY Special 5
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (223, 'Music Man STINGRAY 5HH', 12500.00, 1, 102, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (223, 'STINGRAY', 5, 'SUNBURST');
 
--- INSERT INTO pessoa (id, name, email) VALUES (3, 'Luthier João', 'joao.luthier@example.com');
--- INSERT INTO pessoaluthier (id, cnpj) VALUES (3, '12.345.678/0001-99');
+-- 5. Fender Vintera 60s Jazz Bass
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (224, 'Fender Vintera 60s JB', 8900.00, 2, 100, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (224, 'JAZZ_BASS', 4, 'SUNBURST');
 
--- INSERT INTO pessoa (id, name, email) VALUES (4, 'Luthier Maria', 'maria.luthier@example.com');
--- INSERT INTO pessoaluthier (id, cnpj) VALUES (4, '98.765.432/0001-88');
+-- 6. Squier Classic Vibe 70s Precision
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (225, 'Squier CV 70s P-Bass', 3200.00, 4, 100, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (225, 'PRECISION', 4, 'BRANCO');
 
--- -- Inserir captadores ativos e passivos
--- INSERT INTO captador (id, marca, price, captadorposicao) VALUES (1, 'EMG', 350.00, 'PONTE');
--- INSERT INTO captadorativo (id, possuibateria, possuinamplificador) VALUES (1, true, true);
+-- 7. Spector Legend 4 Classic
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (226, 'Spector Legend 4', 4800.00, 3, 101, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (226, 'STINGRAY', 4, 'AZUL');
 
--- INSERT INTO captador (id, marca, price, captadorposicao) VALUES (2, 'Seymour Duncan', 420.00, 'MEIO');
--- INSERT INTO captadorativo (id, possuibateria, possuinamplificador) VALUES (2, true, false);
+-- 8. Cort C4 Plus
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (227, 'Cort C4 Plus ZBMH', 2900.00, 6, 100, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (227, 'STINGRAY', 4, 'SUNBURST');
 
--- INSERT INTO captador (id, marca, price, captadorposicao) VALUES (3, 'DiMarzio', 220.00, 'BRANCO');
--- INSERT INTO captadorpassivo (id, resistencia, numerobobinas) VALUES (3, 8.2, 2);
+-- 9. Jackson David Ellefson CBX IV
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (228, 'Jackson CBX IV Quicksilver', 3700.00, 2, 100, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (228, 'STINGRAY', 4, 'SUNBURST');
 
--- INSERT INTO captador (id, marca, price, captadorposicao) VALUES (4, 'Fender', 180.00, 'PONTE');
--- INSERT INTO captadorpassivo (id, resistencia, numerobobinas) VALUES (4, 5.6, 1);
+-- 10. Schecter Stiletto Extreme-4
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (229, 'Schecter Stiletto Cherry', 4100.00, 3, 102, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (229, 'STINGRAY', 4, 'VERMELHO');
 
--- -- Inserir configurações eletrônicas e baixos customizados
--- INSERT INTO configuracaoeletronica (id, volumeknobs, toneknobs, circuitoativo) VALUES (1, 2, 2, true);
--- INSERT INTO configuracaoeletronica (id, volumeknobs, toneknobs, circuitoativo) VALUES (2, 1, 1, false);
+-- 11. Sire Marcus Miller M2 5-String
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (230, 'Sire M2 5-String Black', 3950.00, 4, 101, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (230, 'STINGRAY', 5, 'PRETO');
 
--- INSERT INTO baixocustomizado (id, baixomodelobase, description, baixocor, estimatedprice, baixostatus, baixocustomizados, pessoaluthier, configuracaoeletronica_id) VALUES (1, 'CUSTOM', 'Baixo custom com captadores ativos e configuração ativa', 'AZUL', 7200.00, 'EM_CONSTRUCAO', 1, 3, 1);
--- INSERT INTO baixocustomizado (id, baixomodelobase, description, baixocor, estimatedprice, baixostatus, baixocustomizados, pessoaluthier, configuracaoeletronica_id) VALUES (2, 'CUSTOM', 'Baixo custom passivo para som vintage', 'BRANCO', 6500.00, 'PROJETANDO', 2, 4, 2);
+-- 12. Rickenbacker 4003
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (231, 'Rickenbacker 4003 FG', 18500.00, 1, 102, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (231, 'STINGRAY', 4, 'SUNBURST');
 
--- INSERT INTO baixo_captador (baixo_id, captador_id) VALUES (1, 1);
--- INSERT INTO baixo_captador (baixo_id, captador_id) VALUES (1, 2);
--- INSERT INTO baixo_captador (baixo_id, captador_id) VALUES (2, 3);
--- INSERT INTO baixo_captador (baixo_id, captador_id) VALUES (2, 4);
+-- 13. Hofner Ignition Violin Bass
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (232, 'Hofner Violin Bass Beetles', 3200.00, 3, 100, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (232, 'STINGRAY', 4, 'SUNBURST');
 
--- -- Inserir pedidos e itens de pedido
--- INSERT INTO pedido (id, data, valortotal, pessoaclienteid) VALUES (1, '2026-04-01', 4535.50, 1);
--- INSERT INTO pedidoitem (id, quantidade, precounitario, produtoid, pedidoid) VALUES (1, 1, 35.50, 1, 1);
--- INSERT INTO pedidoitem (id, quantidade, precounitario, produtoid, pedidoid) VALUES (2, 1, 4500.00, 12, 1);
+-- 14. ESP LTD B-204SM
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (233, 'ESP LTD B-204 Ash', 3600.00, 5, 101, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (233, 'STINGRAY', 4, 'SUNBURST');
 
--- INSERT INTO pedido (id, data, valortotal, pessoaclienteid) VALUES (2, '2026-04-02', 240.00, 2);
--- INSERT INTO pedidoitem (id, quantidade, precounitario, produtoid, pedidoid) VALUES (3, 2, 120.00, 8, 2);
+-- 15. G&L Tribute L-2000
+INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VALUES (234, 'G&L Tribute L-2000 Blue', 5200.00, 2, 102, true);
+INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (234, 'STINGRAY', 4, 'AZUL');
+
+---
+-- 4. PESSOAS (ID 10+)
+---
+INSERT INTO pessoa (id, name, email, ativo) VALUES (10, 'Ana Silva', 'ana.silva@example.com', true);
+INSERT INTO pessoacliente (id, cpf) VALUES (10, '12345678901');
+
+INSERT INTO pessoa (id, name, email, ativo) VALUES (30, 'Luthier João', 'joao.luthier@example.com', true);
+INSERT INTO pessoaluthier (id, cnpj) VALUES (30, '12.345.678/0001-99');
+
+
+---
+-- 6. CONFIGURAÇÃO E BAIXOS CUSTOMIZADOS (ID 400+)
+---
+INSERT INTO configuracaoeletronica (id, volumeknobs, toneknobs, circuitoativo, ativo) VALUES (400, 2, 2, true, true);
+INSERT INTO configuracaoeletronica (id, volumeknobs, toneknobs, circuitoativo, ativo) VALUES (401, 6, 4, false, true);
+
+INSERT INTO baixocustomizado (id, baixomodelobase, description, baixocor, estimatedprice, baixostatus, clientebaixoCustomizados, pessoaLuthier, configuracaoeletronica_id, ativo) 
+VALUES (890, 'CUSTOM', 'Baixo custom completo', 'AZUL', 7200.00, 'EM_CONSTRUCAO', 10, 30, 400, true);
+
+-- Captador Ativo (ID 300)
+INSERT INTO captador (id, marca, price, captadorposicao, ativo) VALUES (300, 'show', 350.00, 'PONTE', true);
+INSERT INTO captadorativo (id, possuibateria, possuiamplificador) VALUES (300, true, true);
+
+-- Captador Passivo (ID 310)
+INSERT INTO captador (id, marca, price, captadorposicao, ativo) VALUES (310, 'DiMarzio', 220.00, 'BRANCO', true);
+INSERT INTO captadorpassivo (id, resistencia, numerobobinas) VALUES (310, 8.2, 2);
+
+-- Captador Passivo (ID 311)
+INSERT INTO captador (id, marca, price, captadorposicao, baixocustomizado_id, ativo) VALUES (311, 'Fender', 180.00, 'PONTE', 890, true);
+INSERT INTO captadorpassivo (id, resistencia, numerobobinas) VALUES (311, 5.6, 1);
+
+---
+-- 7. SINCRONIZAÇÃO DE SEQUENCE
+---
+-- Isso garante que o próximo ID gerado pelo Hibernate não colida com os manuais
+-- SELECT setval('hibernate_sequence', (SELECT max(id) FROM produto));

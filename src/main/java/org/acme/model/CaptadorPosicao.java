@@ -1,9 +1,5 @@
 package org.acme.model;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum CaptadorPosicao {
 
     BRANCO(1L, "Branco"),

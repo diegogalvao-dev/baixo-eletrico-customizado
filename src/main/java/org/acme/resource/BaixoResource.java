@@ -5,7 +5,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
+
 import org.acme.dto.BaixoDTO;
+import org.acme.dto.BaixoResponseDTO;
 import org.acme.service.BaixoService;
 
 @Path("baixo")
@@ -17,8 +20,27 @@ public class BaixoResource {
     BaixoService baixoService;
 
     @GET
-    public Response findAll(){
-        return Response.ok().entity(baixoService.findAll()).build();
+    @Path("/buscarTodos")
+    public List<BaixoResponseDTO> buscarTodos(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) { 
+        return baixoService.findAll(page, pageSize);
+    }
+
+        @GET
+    @Path("/search")
+    public List<BaixoResponseDTO> search(@QueryParam("query") String query, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
+        return baixoService.search(query, page, pageSize);
+    }
+
+    @GET
+    @Path("/count")
+    public Long total() {
+        return baixoService.count();
+    }
+
+    @GET
+    @Path("/{id}")
+    public BaixoResponseDTO findById(@PathParam("id") long id) {
+        return baixoService.findById(id);
     }
 
     @POST

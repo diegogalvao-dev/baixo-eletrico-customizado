@@ -7,33 +7,33 @@ import java.util.List;
 @Entity
 public class BaixoCustomizado extends DefaultEntity {
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BaixoModeloBase baixoModeloBase;
 
     @Column(nullable = false)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BaixoCor baixoCor;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private ConfiguracaoEletronica configuracaoEletronica;
 
-    @ManyToMany
-    @JoinTable(
-        name = "baixo_captador",
-        joinColumns = @JoinColumn(name = "baixo_id"),
-        inverseJoinColumns = @JoinColumn(name = "captador_id"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "baixocustomizado_id")
     private List<Captador> captadores;
 
     @Column(nullable = false)
     private Double estimatedPrice;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BaixoStatus baixoStatus;
 
     @ManyToOne
-    @JoinColumn(name = "baixoCustomizados")
+    @JoinColumn(name = "clientebaixoCustomizados")
     private PessoaCliente pessoaCliente;
 
     @ManyToOne

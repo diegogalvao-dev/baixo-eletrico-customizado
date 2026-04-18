@@ -6,7 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import org.acme.dto.BaixoCustomizadoResponseDTO;
+import org.acme.dto.AcessorioResponseDTO;
 import org.acme.dto.BaixoCustomizadoDTO;
+import org.acme.model.Acessorio;
 import org.acme.model.BaixoCustomizado;
 import org.acme.model.Captador;
 import org.acme.model.ConfiguracaoEletronica;
@@ -15,6 +17,9 @@ import org.acme.repository.CaptadoresRepository;
 import org.acme.repository.ConfiguracaoEletronicaRepository;
 import org.acme.repository.PessoaClienteRepository;
 import org.acme.repository.PessoaLuthierRepository;
+import org.acme.exception.ValidationException;
+
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 import java.util.List;
 
@@ -48,19 +53,13 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
         newBaixoCustomizado.setBaixoModeloBase(dto.baixoModeloBase());
         newBaixoCustomizado.setDescription(dto.description());
         newBaixoCustomizado.setBaixoCor(dto.baixoCor());
-        newBaixoCustomizado.setConfiguracaoEletronica(resolveConfiguracaoEletronica(dto.configuracaoEletronica()));
+        newBaixoCustomizado.setConfiguracaoEletronica(configuracaoEletronicaRepository.findById(dto.configuracaoEletronica()));
         newBaixoCustomizado.setEstimatedPrice(dto.estimatedPrice());
         newBaixoCustomizado.setBaixoStatus(dto.baixoStatus());
-
-        List<Captador> novosCaptadores = captadoresRepository.listByIds(dto.captadorList());
-        newBaixoCustomizado.setCaptador(novosCaptadores);
-
-        if(dto.pessoaCliente() != null){
-            newBaixoCustomizado.setPessoaCliente(pessoaClienteRepository.findById(dto.pessoaCliente()));
-        }
-        if(dto.pessoaLuthier() != null){
-            newBaixoCustomizado.setPessoaLuthier(pessoaLuthierRepository.findById(dto.pessoaLuthier()));
-        }
+        newBaixoCustomizado.setPessoaCliente(pessoaClienteRepository.findById(dto.pessoaCliente()));
+        newBaixoCustomizado.setPessoaLuthier(pessoaLuthierRepository.findById(dto.pessoaLuthier()));
+        newBaixoCustomizado.setCaptador(captadoresRepository.listByIds(dto.captadorList()));
+        
 
         baixoCustomizadoRepository.persist(newBaixoCustomizado);
 
@@ -77,22 +76,13 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
         modifyBaixoCustomizado.setBaixoModeloBase(dto.baixoModeloBase());
         modifyBaixoCustomizado.setDescription(dto.description());
         modifyBaixoCustomizado.setBaixoCor(dto.baixoCor());
-        modifyBaixoCustomizado.setConfiguracaoEletronica(resolveConfiguracaoEletronica(dto.configuracaoEletronica()));
+        modifyBaixoCustomizado.setConfiguracaoEletronica(configuracaoEletronicaRepository.findById(dto.configuracaoEletronica()));
         modifyBaixoCustomizado.setEstimatedPrice(dto.estimatedPrice());
         modifyBaixoCustomizado.setBaixoStatus(dto.baixoStatus());
+        modifyBaixoCustomizado.setPessoaCliente(pessoaClienteRepository.findById(dto.pessoaCliente()));
+        modifyBaixoCustomizado.setPessoaLuthier(pessoaLuthierRepository.findById(dto.pessoaLuthier()));
+        modifyBaixoCustomizado.setCaptador(captadoresRepository.listByIds(dto.captadorList()));
 
-        List<Captador> novosCaptadores = captadoresRepository.listByIds(dto.captadorList());
-        modifyBaixoCustomizado.setCaptador(novosCaptadores);
-
-        // modifyBaixoCustomizado.getCaptador().clear(); // remove relações antigas
-        // modifyBaixoCustomizado.getCaptador().addAll(novosCaptadores); // adiciona novas
-
-        if(dto.pessoaCliente() != null){
-            modifyBaixoCustomizado.setPessoaCliente(pessoaClienteRepository.findById(dto.pessoaCliente()));
-        }
-        if(dto.pessoaLuthier() != null){
-            modifyBaixoCustomizado.setPessoaLuthier(pessoaLuthierRepository.findById(dto.pessoaLuthier()));
-        }
     }
 
     @Override
@@ -102,11 +92,43 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
     }
 
     @Override
-    public List<BaixoCustomizadoResponseDTO> findAll() {
-        return baixoCustomizadoRepository.findAll().list().stream()
-                .map(BaixoCustomizadoResponseDTO::valueOf)
-                .toList();
+    public List<BaixoCustomizadoResponseDTO> findAll(Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+        PanacheQuery<BaixoCustomizado> query = baixoCustomizadoRepository.findAll().page(pageNumber, size);
+        return query.list().stream().map(BaixoCustomizadoResponseDTO::valueOf).toList();
     }
+
+    @Override
+    public List<BaixoCustomizadoResponseDTO> search(String term, Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+
+        PanacheQuery<BaixoCustomizado> query;
+        if (term == null || term.isBlank()) {
+            query = baixoCustomizadoRepository.findAll();
+        } else {
+            query = baixoCustomizadoRepository.searchByTerm(term);
+        }
+
+        query = query.page(pageNumber, size);
+        return query.list().stream().map(BaixoCustomizadoResponseDTO::valueOf).toList();
+    }
+
+    @Override
+    public long count() {
+        return baixoCustomizadoRepository.findAll().count();
+    }
+
+    @Override
+    public BaixoCustomizadoResponseDTO findById(long id) {
+        BaixoCustomizado baixoCustomizado = baixoCustomizadoRepository.findById(id);
+        if (baixoCustomizado == null) {
+            throw ValidationException.of("baixoCustomizado", "Baixo customizado não encontrado");
+        }
+        return BaixoCustomizadoResponseDTO.valueOf(baixoCustomizado);
+    }
+
 
     private ConfiguracaoEletronica resolveConfiguracaoEletronica(ConfiguracaoEletronica dtoConfig) {
         if (dtoConfig == null) {
