@@ -9,6 +9,9 @@ import org.acme.dto.FornecedorDTO;
 import org.acme.model.Fornecedor;
 import org.acme.model.Produto;
 import org.acme.repository.FornecedorRepository;
+import org.acme.exception.ValidationException;
+
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 import java.util.List;
 import java.util.Objects;
@@ -72,12 +75,42 @@ public class FornecedorServiceImpl implements FornecedorService{
     }
 
     @Override
-    public List<FornecedorResponseDTO> findAll() {
-        // Evita usar stream direto de PanacheQuery (ResultSet ainda aberto).
-        // Carrega tudo em memória e só depois mapeia para DTO.
-        return fornecedorRepository.findAll().list().stream()
-                .map(FornecedorResponseDTO::valueOf)
-                .toList();
+    public List<FornecedorResponseDTO> findAll(Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+        PanacheQuery<Fornecedor> query = fornecedorRepository.findAll().page(pageNumber, size);
+        return query.list().stream().map(FornecedorResponseDTO::valueOf).toList();
+    }
+
+
+    @Override
+    public List<FornecedorResponseDTO> search(String term, Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+
+        PanacheQuery<Fornecedor> query;
+        if (term == null || term.isBlank()) {
+            query = fornecedorRepository.findAll();
+        } else {
+            query = fornecedorRepository.searchByTerm(term);
+        }
+
+        query = query.page(pageNumber, size);
+        return query.list().stream().map(FornecedorResponseDTO::valueOf).toList();
+    }
+
+    @Override
+    public long count() {
+        return fornecedorRepository.findAll().count();
+    }
+
+    @Override
+    public FornecedorResponseDTO findById(long id) {
+        Fornecedor fornecedor = fornecedorRepository.findById(id);
+        if (fornecedor == null) {
+            throw ValidationException.of("fornecedor", "Fornecedor não encontrado");
+        }
+        return FornecedorResponseDTO.valueOf(fornecedor);
     }
 
 }

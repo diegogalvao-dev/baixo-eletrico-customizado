@@ -2,6 +2,7 @@ package org.acme.dto;
 
 import org.acme.model.BaixoCor;
 import org.acme.model.BaixoModeloBase;
+import org.acme.model.Fornecedor;
 
 public record BaixoDTO(
 
@@ -11,6 +12,6 @@ public record BaixoDTO(
     String name,
     Double price,
     Integer quantidadeEstoque,
-    Long fornecedor
+    String fornecedor
 
-) { } 
+) { }  

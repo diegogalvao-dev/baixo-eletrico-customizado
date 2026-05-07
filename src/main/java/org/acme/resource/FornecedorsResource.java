@@ -5,7 +5,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
+
 import org.acme.dto.FornecedorDTO;
+import org.acme.dto.FornecedorResponseDTO;
 import org.acme.service.FornecedorService;
 
 @Path("Fornecedor")
@@ -16,9 +19,29 @@ public class FornecedorsResource {
     @Inject
     FornecedorService fornecedorService;
 
+
+@GET
+    @Path("/buscarTodos")
+    public List<FornecedorResponseDTO> buscarTodos(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) { 
+        return fornecedorService.findAll(page, pageSize);
+    }
+
     @GET
-    public Response findAll(){
-        return Response.ok().entity(fornecedorService.findAll()).build();
+    @Path("/search")
+    public List<FornecedorResponseDTO> search(@QueryParam("query") String query, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
+        return fornecedorService.search(query, page, pageSize);
+    }
+
+    @GET
+    @Path("/count")
+    public Long total() {
+        return fornecedorService.count();
+    }
+
+    @GET
+    @Path("/{id}")
+    public FornecedorResponseDTO findById(@PathParam("id") long id) {
+        return fornecedorService.findById(id);
     }
 
     @POST

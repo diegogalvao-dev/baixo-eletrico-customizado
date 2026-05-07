@@ -8,7 +8,6 @@ import jakarta.ws.rs.NotFoundException;
 import org.acme.dto.BaixoResponseDTO;
 import org.acme.dto.BaixoDTO;
 import org.acme.model.Baixo;
-import org.acme.model.BaixoModeloBase;
 import org.acme.repository.BaixoRepository;
 import org.acme.repository.FornecedorRepository;
 import org.acme.repository.PedidoItemRepository;
@@ -41,9 +40,8 @@ public class BaixoServiceImpl implements BaixoService{
         newBaixo.setName(dto.name());
         newBaixo.setPrice(dto.price());
         newBaixo.setQuantidadeEstoque(dto.quantidadeEstoque());
-        if(dto.fornecedor() != null){
-            newBaixo.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
-        }
+        newBaixo.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
+
         baixoRepository.persist(newBaixo);
 
         return BaixoResponseDTO.valueOf(newBaixo);
@@ -66,7 +64,7 @@ public class BaixoServiceImpl implements BaixoService{
         modifyBaixo.setPrice(dto.price());
         modifyBaixo.setQuantidadeEstoque(dto.quantidadeEstoque());
         if(dto.fornecedor() != null){
-            modifyBaixo.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
+            modifyBaixo.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
         }
     }
 

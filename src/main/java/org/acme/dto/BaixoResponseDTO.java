@@ -13,7 +13,7 @@ public record BaixoResponseDTO(
     String name,
     Double price,
     Integer quantidadeEstoque,
-    Long fornecedor
+    String fornecedor
 
 ) {
 
@@ -31,7 +31,7 @@ public record BaixoResponseDTO(
             baixo.getName(),
             baixo.getPrice(),
             baixo.getQuantidadeEstoque(),
-            baixo.getFornecedor().getId());
+            baixo.getFornecedor().getName());
     }
 
 } 

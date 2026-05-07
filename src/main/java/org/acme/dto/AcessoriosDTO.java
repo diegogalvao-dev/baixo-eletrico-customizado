@@ -10,5 +10,5 @@ public record AcessoriosDTO(
         String name,
         Double price,
         Integer quantidadeEstoque,
-        Long fornecedor) {
+        String fornecedor) {
 }

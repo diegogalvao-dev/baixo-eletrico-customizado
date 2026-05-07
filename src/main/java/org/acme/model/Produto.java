@@ -3,9 +3,17 @@ package org.acme.model;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import jakarta.persistence.*;
 
 @Entity
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Baixo.class, name = "BAIXO"),
+    @JsonSubTypes.Type(value = Acessorio.class, name = "ACESSORIO")
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 @SQLRestriction("ativo = true")
 @SQLDelete(sql = "UPDATE produto SET ativo = false WHERE id = ?") // Alvo específico

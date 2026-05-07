@@ -2,6 +2,7 @@ package org.acme.dto;
 
 import org.acme.model.Acessorio;
 import org.acme.model.AcessorioTipo;
+import org.acme.model.Fornecedor;
 
 public record AcessorioResponseDTO(
         Long id,
@@ -11,7 +12,7 @@ public record AcessorioResponseDTO(
         String name,
         Double price,
         Integer quantidadeEstoque,
-        Long fornecedor) {
+        String fornecedor) {
 
         public static AcessorioResponseDTO valueOf(Acessorio acessorio){
 
@@ -27,7 +28,7 @@ public record AcessorioResponseDTO(
                 acessorio.getName(),
                 acessorio.getPrice(),
                 acessorio.getQuantidadeEstoque(),
-                acessorio.getFornecedor().getId());
+                acessorio.getFornecedor().getName());
 
     }
 

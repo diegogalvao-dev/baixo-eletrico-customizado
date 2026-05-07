@@ -5,8 +5,10 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.acme.dto.AcessorioResponseDTO;
 import org.acme.dto.AcessoriosDTO;
+import org.acme.dto.FornecedorResponseDTO;
 import org.acme.exception.ValidationException;
 import org.acme.model.Acessorio;
+import org.acme.model.Fornecedor;
 import org.acme.repository.AcessoriosRepository;
 import org.acme.repository.FornecedorRepository;
 import org.acme.repository.PedidoItemRepository;
@@ -40,7 +42,7 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         newAcessorio.setPrice(dto.price());
         newAcessorio.setQuantidadeEstoque(dto.quantidadeEstoque());
         if(dto.fornecedor() != null){
-            newAcessorio.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
+            newAcessorio.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
         }    
         acessoriosRepository.persist(newAcessorio);
 
@@ -61,7 +63,7 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         modifyAce.setPrice(dto.price());
         modifyAce.setQuantidadeEstoque(dto.quantidadeEstoque());
         if(dto.fornecedor() != null){
-            modifyAce.setFornecedor(fornecedorRepository.findById(dto.fornecedor()));
+            modifyAce.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
         }
     }
 
@@ -84,6 +86,12 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         int size = pageSize == null ? 100 : pageSize;
         PanacheQuery<Acessorio> query = acessoriosRepository.findAll().page(pageNumber, size);
         return query.list().stream().map(AcessorioResponseDTO::valueOf).toList();
+    }
+
+    @Override
+    public List<FornecedorResponseDTO> searchFornecedor(String term) {
+        PanacheQuery<Fornecedor> query = fornecedorRepository.searchByFornecedor(term);
+        return query.list().stream().map(FornecedorResponseDTO::valueOf).toList();
     }
 
     @Override

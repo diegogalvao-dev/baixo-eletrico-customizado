@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.acme.dto.AcessorioResponseDTO;
 import org.acme.dto.AcessoriosDTO;
+import org.acme.dto.FornecedorResponseDTO;
 import org.acme.service.AcessoriosService;
 
 @Path("Acessorio")
@@ -29,6 +30,12 @@ public class AcessoriosResource {
     @Path("/search")
     public List<AcessorioResponseDTO> search(@QueryParam("query") String query, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
         return acessoriosService.search(query, page, pageSize);
+    }
+
+    @GET
+    @Path("/searchFornecedor")
+    public List<FornecedorResponseDTO> searchFornecedor(@QueryParam("query") String query) {
+        return acessoriosService.searchFornecedor(query);
     }
 
     @GET
