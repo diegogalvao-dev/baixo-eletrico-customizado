@@ -21,7 +21,7 @@ public class BaixoCustomizado extends DefaultEntity {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private ConfiguracaoEletronica configuracaoEletronica;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
     @JoinColumn(name = "baixocustomizado_id")
     private List<Captador> captadores;
 

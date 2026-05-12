@@ -2,7 +2,6 @@ package org.acme.dto;
 
 import org.acme.model.Acessorio;
 import org.acme.model.AcessorioTipo;
-import org.acme.model.Fornecedor;
 
 public record AcessorioResponseDTO(
         Long id,

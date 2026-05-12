@@ -2,7 +2,6 @@ package org.acme.service;
 
 import java.util.List;
 
-import org.acme.dto.BaixoResponseDTO;
 import org.acme.dto.FornecedorDTO;
 import org.acme.dto.FornecedorResponseDTO;
 

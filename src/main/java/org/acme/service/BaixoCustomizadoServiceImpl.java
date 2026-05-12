@@ -4,11 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
 import org.acme.dto.BaixoCustomizadoResponseDTO;
 import org.acme.dto.BaixoCustomizadoDTO;
 import org.acme.model.BaixoCustomizado;
-import org.acme.model.ConfiguracaoEletronica;
+import org.acme.model.Captador;
 import org.acme.repository.BaixoCustomizadoRepository;
 import org.acme.repository.CaptadoresRepository;
 import org.acme.repository.ConfiguracaoEletronicaRepository;
@@ -78,8 +77,11 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
         modifyBaixoCustomizado.setBaixoStatus(dto.baixoStatus());
         modifyBaixoCustomizado.setPessoaCliente(pessoaClienteRepository.findById(dto.pessoaCliente()));
         modifyBaixoCustomizado.setPessoaLuthier(pessoaLuthierRepository.findById(dto.pessoaLuthier()));
-        modifyBaixoCustomizado.setCaptador(captadoresRepository.listByIds(dto.captadorList()));
-
+        
+        // Fix for "A collection with orphan deletion was no longer referenced by the owning entity instance"
+        List<Captador> novosCaptadores = captadoresRepository.listByIds(dto.captadorList());
+        modifyBaixoCustomizado.getCaptador().clear();
+        modifyBaixoCustomizado.getCaptador().addAll(novosCaptadores);
     }
 
     @Override
@@ -127,19 +129,19 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
     }
 
 
-    private ConfiguracaoEletronica resolveConfiguracaoEletronica(ConfiguracaoEletronica dtoConfig) {
-        if (dtoConfig == null) {
-            return null;
-        }
-        if (dtoConfig.getId() != null) {
-            ConfiguracaoEletronica managed = configuracaoEletronicaRepository.findById(dtoConfig.getId());
-            if (managed == null) {
-                throw new NotFoundException("ConfiguracaoEletronica with id " + dtoConfig.getId() + " not found");
-            }
-            return managed;
-        }
-        // No ID means new config: the cascade settings in BaixoCustomizado will persist it.
-        return dtoConfig;
-    }
+    // private ConfiguracaoEletronica resolveConfiguracaoEletronica(ConfiguracaoEletronica dtoConfig) {
+    //     if (dtoConfig == null) {
+    //         return null;
+    //     }
+    //     if (dtoConfig.getId() != null) {
+    //         ConfiguracaoEletronica managed = configuracaoEletronicaRepository.findById(dtoConfig.getId());
+    //         if (managed == null) {
+    //             throw new NotFoundException("ConfiguracaoEletronica with id " + dtoConfig.getId() + " not found");
+    //         }
+    //         return managed;
+    //     }
+    //     // No ID means new config: the cascade settings in BaixoCustomizado will persist it.
+    //     return dtoConfig;
+    // }
 
 }

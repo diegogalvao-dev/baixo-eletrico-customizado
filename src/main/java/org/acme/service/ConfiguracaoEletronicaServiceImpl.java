@@ -34,13 +34,15 @@ public class ConfiguracaoEletronicaServiceImpl implements ConfiguracaoEletronica
 
     @Override
     @Transactional
-    public void update(long id, ConfiguracaoEletronicaDTO dto) {
+    public ConfiguracaoEletronicaResponseDTO update(long id, ConfiguracaoEletronicaDTO dto) {
 
         ConfiguracaoEletronica modifyConfiguracaoEletronica = configuracaoEletronicaRepository.findById(id);
 
         modifyConfiguracaoEletronica.setVolumeKnobs(dto.volumeKnobs());
         modifyConfiguracaoEletronica.setToneKnobs(dto.toneKnobs());
         modifyConfiguracaoEletronica.setCircuitoAtivo(dto.circuitoAtivo());
+
+        return ConfiguracaoEletronicaResponseDTO.valueOf(modifyConfiguracaoEletronica);
     }
 
     @Override
@@ -52,6 +54,12 @@ public class ConfiguracaoEletronicaServiceImpl implements ConfiguracaoEletronica
     @Override
     public List<ConfiguracaoEletronicaResponseDTO> findAll() {
         return configuracaoEletronicaRepository.findAll().stream().map(e -> ConfiguracaoEletronicaResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    public ConfiguracaoEletronicaResponseDTO findById(long id) {
+        ConfiguracaoEletronica entity = configuracaoEletronicaRepository.findById(id);
+        return ConfiguracaoEletronicaResponseDTO.valueOf(entity);
     }
 
 }

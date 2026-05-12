@@ -21,6 +21,12 @@ public class ConfiguracaoEletronicaResource {
         return Response.ok().entity(configuracaoEletronicaService.findAll()).build();
     }
 
+    @GET
+    @Path("/{id}")
+    public Response findById(@PathParam("id") long id){
+        return Response.ok().entity(configuracaoEletronicaService.findById(id)).build();
+    }
+
     @POST
     public Response create(ConfiguracaoEletronicaDTO dto){
         return Response.status(Response.Status.CREATED).entity(configuracaoEletronicaService.create(dto)).build();
@@ -28,14 +34,13 @@ public class ConfiguracaoEletronicaResource {
 
     @PUT
     @Path("/{id}")
-    public Response update(long id, ConfiguracaoEletronicaDTO dto){
-        configuracaoEletronicaService.update(id, dto);
-        return Response.noContent().build();
+    public Response update(@PathParam("id") long id, ConfiguracaoEletronicaDTO dto){
+        return Response.ok().entity(configuracaoEletronicaService.update(id, dto)).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public Response delete(long id){
+    public Response delete(@PathParam("id") long id){
         configuracaoEletronicaService.delete(id);
         return Response.noContent().build();
     }

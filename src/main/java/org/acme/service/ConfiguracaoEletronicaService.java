@@ -8,9 +8,10 @@ import org.acme.dto.ConfiguracaoEletronicaResponseDTO;
 public interface ConfiguracaoEletronicaService {
 
     ConfiguracaoEletronicaResponseDTO create(ConfiguracaoEletronicaDTO configuracaoEletronicaDTO);
-    void update(long id, ConfiguracaoEletronicaDTO configuracaoEletronicaDTO);
+    ConfiguracaoEletronicaResponseDTO update(long id, ConfiguracaoEletronicaDTO configuracaoEletronicaDTO);
     void delete(long id);
 
     List<ConfiguracaoEletronicaResponseDTO> findAll();
+    ConfiguracaoEletronicaResponseDTO findById(long id);
 
 }

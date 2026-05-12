@@ -7,7 +7,6 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-import org.acme.dto.BaixoResponseDTO;
 import org.acme.dto.CaptadorAtivoDTO;
 import org.acme.dto.CaptadorAtivoResponseDTO;
 import org.acme.service.CaptadorAtivoService;

@@ -1,6 +1,5 @@
 package org.acme.repository;
 
-import org.acme.model.Baixo;
 import org.acme.model.CaptadorPassivo;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;

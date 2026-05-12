@@ -2,7 +2,6 @@ package org.acme.service;
 
 import java.util.List;
 
-import org.acme.dto.AcessorioResponseDTO;
 import org.acme.dto.BaixoCustomizadoDTO;
 import org.acme.dto.BaixoCustomizadoResponseDTO;
 
