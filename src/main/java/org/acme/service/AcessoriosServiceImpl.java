@@ -44,6 +44,7 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         if(dto.fornecedor() != null){
             newAcessorio.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
         }    
+        newAcessorio.setImagemPrincipal(dto.imagemPrincipal());
         acessoriosRepository.persist(newAcessorio);
 
         return AcessorioResponseDTO.valueOf(newAcessorio);
@@ -52,7 +53,7 @@ public class AcessoriosServiceImpl implements AcessoriosService{
 
     @Override
     @Transactional
-    public void update(long id, AcessoriosDTO dto) {
+    public AcessorioResponseDTO update(long id, AcessoriosDTO dto) {
 
         Acessorio modifyAce = acessoriosRepository.findById(id);
 
@@ -65,6 +66,14 @@ public class AcessoriosServiceImpl implements AcessoriosService{
         if(dto.fornecedor() != null){
             modifyAce.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
         }
+        
+        modifyAce.setImagemPrincipal(dto.imagemPrincipal());
+        
+        if ((modifyAce.getImagemPrincipal() == null || modifyAce.getImagemPrincipal().isBlank()) 
+            && modifyAce.getNomeImagens() != null && !modifyAce.getNomeImagens().isEmpty()) {
+            modifyAce.setImagemPrincipal(modifyAce.getNomeImagens().get(0));
+        }
+        return AcessorioResponseDTO.valueOf(modifyAce);
     }
 
     @Override

@@ -51,8 +51,7 @@ public class BaixoResource {
     @PUT
     @Path("/{id}")
     public Response update(long id, BaixoDTO dto){
-        baixoService.update(id, dto);
-        return Response.noContent().build();
+        return Response.ok(baixoService.update(id, dto)).build();
     }
 
     @DELETE

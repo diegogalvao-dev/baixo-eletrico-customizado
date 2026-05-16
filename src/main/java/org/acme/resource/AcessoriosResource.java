@@ -58,8 +58,7 @@ public class AcessoriosResource {
     @PUT
     @Path("/{id}")
     public Response update(long id, AcessoriosDTO dto){
-        acessoriosService.update(id, dto);
-        return Response.noContent().build();
+        return Response.ok(acessoriosService.update(id, dto)).build();
     }
 
     @DELETE

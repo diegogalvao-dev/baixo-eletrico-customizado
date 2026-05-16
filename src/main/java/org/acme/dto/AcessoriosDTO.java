@@ -10,5 +10,6 @@ public record AcessoriosDTO(
         String name,
         Double price,
         Integer quantidadeEstoque,
-        String fornecedor) {
+        String fornecedor,
+        String imagemPrincipal) {
 }

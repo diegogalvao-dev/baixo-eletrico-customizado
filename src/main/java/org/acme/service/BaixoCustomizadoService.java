@@ -8,7 +8,7 @@ import org.acme.dto.BaixoCustomizadoResponseDTO;
 public interface BaixoCustomizadoService {
 
     BaixoCustomizadoResponseDTO create(BaixoCustomizadoDTO baixoCustomizadoDTO);
-    void update(long id, BaixoCustomizadoDTO baixoCustomizadoDTO);
+    BaixoCustomizadoResponseDTO update(long id, BaixoCustomizadoDTO baixoCustomizadoDTO);
     void delete(long id);
 
     List<BaixoCustomizadoResponseDTO> findAll(Integer page, Integer pageSize);

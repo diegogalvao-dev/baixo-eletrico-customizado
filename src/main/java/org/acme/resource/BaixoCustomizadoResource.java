@@ -51,8 +51,7 @@ public class BaixoCustomizadoResource {
     @PUT
     @Path("/{id}")
     public Response update(long id, BaixoCustomizadoDTO dto){
-        baixoCustomizadoService.update(id, dto);
-        return Response.noContent().build();
+        return Response.ok(baixoCustomizadoService.update(id, dto)).build();
     }
 
     @DELETE

@@ -5,29 +5,28 @@ import org.acme.model.CaptadorPosicao;
 
 public record CaptadorPassivoResponseDTO(
 
-    Long id,
-    String marca,
-    Double price,
-    CaptadorPosicao captadorPosicao,
-    Double resistencia,
-    Integer numeroBobinas
+        Long id,
+        String marca,
+        Double price,
+        CaptadorPosicao captadorPosicao,
+        Double resistencia,
+        Integer numeroBobinas
 
 ) {
 
-    public static CaptadorPassivoResponseDTO valueOf(CaptadorPassivo captadorPassivo){
+    public static CaptadorPassivoResponseDTO valueOf(CaptadorPassivo captadorPassivo) {
 
-        if(captadorPassivo == null){
+        if (captadorPassivo == null) {
             return null;
         }
 
         return new CaptadorPassivoResponseDTO(
-            captadorPassivo.getId(),
-            captadorPassivo.getMarca(),
-            captadorPassivo.getPrice(),
-            captadorPassivo.getCaptadorPosicao(),
-            captadorPassivo.getResistencia(),
-            captadorPassivo.getNumeroBobinas());
+                captadorPassivo.getId(),
+                captadorPassivo.getMarca(),
+                captadorPassivo.getPrice(),
+                captadorPassivo.getCaptadorPosicao(),
+                captadorPassivo.getResistencia(),
+                captadorPassivo.getNumeroBobinas());
     }
 
 }
-

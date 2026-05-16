@@ -65,7 +65,7 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
 
     @Override
     @Transactional
-    public void update(long id, BaixoCustomizadoDTO dto) {
+    public BaixoCustomizadoResponseDTO update(long id, BaixoCustomizadoDTO dto) {
 
         BaixoCustomizado modifyBaixoCustomizado = baixoCustomizadoRepository.findById(id);
 
@@ -82,6 +82,8 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
         List<Captador> novosCaptadores = captadoresRepository.listByIds(dto.captadorList());
         modifyBaixoCustomizado.getCaptador().clear();
         modifyBaixoCustomizado.getCaptador().addAll(novosCaptadores);
+
+        return BaixoCustomizadoResponseDTO.valueOf(modifyBaixoCustomizado);
     }
 
     @Override

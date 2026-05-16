@@ -25,6 +25,11 @@ public class BaixoCustomizado extends DefaultEntity {
     @JoinColumn(name = "baixocustomizado_id")
     private List<Captador> captadores;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "baixocustomizado_imagens", joinColumns = @JoinColumn(name = "baixocustomizado_id"))
+    @Column(name = "nome_imagem")
+    private List<String> nomeImagens;
+
     @Column(nullable = false)
     private Double estimatedPrice;
 
@@ -112,7 +117,12 @@ public class BaixoCustomizado extends DefaultEntity {
         this.pessoaLuthier = pessoaLuthier;
     }
 
-    
-    
-    
+    public List<String> getNomeImagens() {
+        return nomeImagens;
+    }
+
+    public void setNomeImagens(List<String> nomeImagens) {
+        this.nomeImagens = nomeImagens;
+    }
+
 }

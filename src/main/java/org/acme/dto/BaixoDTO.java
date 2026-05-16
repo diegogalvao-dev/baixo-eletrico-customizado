@@ -12,6 +12,7 @@ public record BaixoDTO(
     String name,
     Double price,
     Integer quantidadeEstoque,
-    String fornecedor
+    String fornecedor,
+    String imagemPrincipal
 
 ) { } 

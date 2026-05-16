@@ -6,7 +6,6 @@ import org.acme.model.BaixoModeloBase;
 import org.acme.model.BaixoStatus;
 import org.acme.model.Captador;
 
-
 import java.util.List;
 
 public record BaixoCustomizadoResponseDTO(
@@ -19,12 +18,12 @@ public record BaixoCustomizadoResponseDTO(
         Double estimatedPrice,
         BaixoStatus baixoStatus,
         Long pessoaCliente,
-        Long pessoaLuthier
-) {
+        Long pessoaLuthier,
+        List<String> nomeImagens) {
 
-    public static BaixoCustomizadoResponseDTO valueOf(BaixoCustomizado baixoCustomizado){
+    public static BaixoCustomizadoResponseDTO valueOf(BaixoCustomizado baixoCustomizado) {
 
-        if (baixoCustomizado == null){
+        if (baixoCustomizado == null) {
             return null;
         }
 
@@ -38,8 +37,8 @@ public record BaixoCustomizadoResponseDTO(
                 baixoCustomizado.getEstimatedPrice(),
                 baixoCustomizado.getBaixoStatus(),
                 baixoCustomizado.getPessoaCliente().getId(),
-                baixoCustomizado.getPessoaLuthier().getId()
-        );
+                baixoCustomizado.getPessoaLuthier().getId(),
+                baixoCustomizado.getNomeImagens() != null ? List.copyOf(baixoCustomizado.getNomeImagens()) : List.of());
 
     }
 

@@ -6,16 +6,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 
 @Entity
-@JsonTypeInfo(
-  use = JsonTypeInfo.Id.NAME, 
-  include = JsonTypeInfo.As.PROPERTY, 
-  property = "type") // No JSON você enviará "type": "ativo" ou "passivo"
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type") // No JSON você enviará
+                                                                                                 // "type": "ativo" ou
+                                                                                                 // "passivo"
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = CaptadorAtivo.class, name = "ativo"),
-  @JsonSubTypes.Type(value = CaptadorPassivo.class, name = "passivo")
+        @JsonSubTypes.Type(value = CaptadorAtivo.class, name = "ativo"),
+        @JsonSubTypes.Type(value = CaptadorPassivo.class, name = "passivo")
 })
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Captador extends DefaultEntity{
+public abstract class Captador extends DefaultEntity {
 
     @Column
     private String marca;
@@ -50,8 +49,5 @@ public abstract class Captador extends DefaultEntity{
     public void setCaptadorPosicao(CaptadorPosicao captadorPosicao) {
         this.captadorPosicao = captadorPosicao;
     }
-
-
-    
 
 }

@@ -7,7 +7,8 @@ public record ProdutoResponseDTO(
         String name,
         Double price,
         Integer quantidadeEstoque,
-        String fornecedor) {
+        String fornecedor,
+        String imagemPrincipal) {
 
     public static ProdutoResponseDTO valueOf(Produto produto) {
         if (produto == null) {
@@ -19,6 +20,7 @@ public record ProdutoResponseDTO(
                 produto.getName(),
                 produto.getPrice(),
                 produto.getQuantidadeEstoque(),
-                produto.getFornecedor() != null ? produto.getFornecedor().getName() : null);
+                produto.getFornecedor() != null ? produto.getFornecedor().getName() : null,
+                produto.getImagemPrincipal());
     }
 }

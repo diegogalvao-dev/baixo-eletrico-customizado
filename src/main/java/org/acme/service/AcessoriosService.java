@@ -9,7 +9,7 @@ import java.util.List;
 public interface AcessoriosService {
 
     AcessorioResponseDTO create(AcessoriosDTO acessoriosDTO);
-    void update(long id, AcessoriosDTO acessoriosDTO);
+    AcessorioResponseDTO update(long id, AcessoriosDTO acessoriosDTO);
     void delete(long id);
 
     List<AcessorioResponseDTO> findAll(Integer page, Integer pageSize);

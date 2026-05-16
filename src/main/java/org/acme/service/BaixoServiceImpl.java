@@ -41,6 +41,7 @@ public class BaixoServiceImpl implements BaixoService{
         newBaixo.setPrice(dto.price());
         newBaixo.setQuantidadeEstoque(dto.quantidadeEstoque());
         newBaixo.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
+        newBaixo.setImagemPrincipal(dto.imagemPrincipal());
 
         baixoRepository.persist(newBaixo);
 
@@ -50,7 +51,7 @@ public class BaixoServiceImpl implements BaixoService{
 
     @Override
     @Transactional
-    public void update(long id, BaixoDTO dto) {
+    public BaixoResponseDTO update(long id, BaixoDTO dto) {
 
         Baixo modifyBaixo = baixoRepository.findById(id);
         if (modifyBaixo == null) {
@@ -66,6 +67,16 @@ public class BaixoServiceImpl implements BaixoService{
         if(dto.fornecedor() != null){
             modifyBaixo.setFornecedor(fornecedorRepository.searchByFornecedor(dto.fornecedor()).firstResult());
         }
+        
+        modifyBaixo.setImagemPrincipal(dto.imagemPrincipal());
+        
+        // Fallback: se não tiver imagem principal mas tiver imagens, pega a primeira
+        if ((modifyBaixo.getImagemPrincipal() == null || modifyBaixo.getImagemPrincipal().isBlank()) 
+            && modifyBaixo.getNomeImagens() != null && !modifyBaixo.getNomeImagens().isEmpty()) {
+            modifyBaixo.setImagemPrincipal(modifyBaixo.getNomeImagens().get(0));
+        }
+
+        return BaixoResponseDTO.valueOf(modifyBaixo);
     }
 
     @Override
