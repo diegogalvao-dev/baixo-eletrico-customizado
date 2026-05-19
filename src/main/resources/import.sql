@@ -167,3 +167,9 @@ INSERT INTO captadorpassivo (id, resistencia, numerobobinas) VALUES (311, 5.6, 1
 ---
 -- Isso garante que o próximo ID gerado pelo Hibernate não colida com os manuais
 -- SELECT setval('hibernate_sequence', (SELECT max(id) FROM produto));
+
+---
+-- 8. USUÁRIOS (Senha padrão: 123456)
+---
+INSERT INTO usuario (nome, username, senha, perfil, ativo) VALUES ('Administrador', 'admin', '0cctg7WgpEz7kC/AzVC+KX+bZLPXDtgJDqWWZWnmzHH+7Na2YVxYYSFPxcf7ImAjqfNckx0aT4n5qKM7WEoeEQ==', 1, true);
+INSERT INTO usuario (nome, username, senha, perfil, ativo) VALUES ('Usuario Comum', 'user', '0cctg7WgpEz7kC/AzVC+KX+bZLPXDtgJDqWWZWnmzHH+7Na2YVxYYSFPxcf7ImAjqfNckx0aT4n5qKM7WEoeEQ==', 2, true);
