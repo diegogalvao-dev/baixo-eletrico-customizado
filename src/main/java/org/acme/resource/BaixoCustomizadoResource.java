@@ -1,5 +1,6 @@
 package org.acme.resource;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -11,6 +12,7 @@ import org.acme.dto.BaixoCustomizadoDTO;
 import org.acme.dto.BaixoCustomizadoResponseDTO;
 import org.acme.service.BaixoCustomizadoService;
 
+@RolesAllowed("admin") 
 @Path("baixo-customizado")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

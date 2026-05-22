@@ -7,6 +7,7 @@ public record UsuarioResponseDTO(
     Long id,
     String nome,
     String username,
+    String email,
     Perfil perfil
 ) {
     public static UsuarioResponseDTO valueOf(Usuario usuario) {
@@ -14,7 +15,9 @@ public record UsuarioResponseDTO(
             usuario.getId(),
             usuario.getNome(),
             usuario.getUsername(),
+            usuario.getEmail(),
             usuario.getPerfil()
         );
     }
 }
+

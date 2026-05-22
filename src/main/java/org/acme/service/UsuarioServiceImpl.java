@@ -29,6 +29,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNome(dto.nome());
         usuario.setUsername(dto.username());
+        usuario.setEmail(dto.email());
         usuario.setSenha(hashService.getHashSenha(dto.senha()));
         usuario.setPerfil(Perfil.valueOf(dto.perfil()));
 
@@ -45,6 +46,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         usuario.setNome(dto.nome());
         usuario.setUsername(dto.username());
+        usuario.setEmail(dto.email());
         usuario.setSenha(hashService.getHashSenha(dto.senha()));
         usuario.setPerfil(Perfil.valueOf(dto.perfil()));
 

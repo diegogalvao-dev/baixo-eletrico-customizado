@@ -1,5 +1,6 @@
 package org.acme.resource;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -11,6 +12,7 @@ import org.acme.dto.FornecedorDTO;
 import org.acme.dto.FornecedorResponseDTO;
 import org.acme.service.FornecedorService;
 
+@RolesAllowed("admin") 
 @Path("Fornecedor")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

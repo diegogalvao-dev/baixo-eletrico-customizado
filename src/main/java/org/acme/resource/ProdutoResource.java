@@ -1,5 +1,6 @@
 package org.acme.resource;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -11,6 +12,7 @@ import org.acme.dto.ProdutoDTO;
 import org.acme.dto.ProdutoResponseDTO;
 import org.acme.service.ProdutoService;
 
+// @RolesAllowed("admin") 
 @Path("produto")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -43,6 +45,7 @@ public class ProdutoResource {
         return produtoService.findById(id);
     }
 
+    @RolesAllowed("admin") 
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") long id, ProdutoDTO dto) {
@@ -50,6 +53,7 @@ public class ProdutoResource {
         return Response.noContent().build();
     }
 
+    @RolesAllowed("admin") 
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") long id) {

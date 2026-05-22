@@ -7,7 +7,7 @@ public record ConfiguracaoEletronicaResponseDTO(
     Integer volumeKnobs, 
     Integer toneKnobs, 
     Boolean circuitoAtivo
-) {
+) {                                                                                                                                                        
 
     public static ConfiguracaoEletronicaResponseDTO valueOf(ConfiguracaoEletronica configuracaoEletronica){
 

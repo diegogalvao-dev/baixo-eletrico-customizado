@@ -5,6 +5,8 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.acme.dto.AuthUsuarioDTO;
 import org.acme.dto.AuthResponseDTO;
 import org.acme.dto.UsuarioResponseDTO;
+import org.acme.dto.CadastroUsuarioDTO;
+import org.acme.dto.UsuarioDTO;
 import org.acme.service.HashService;
 import org.acme.service.JwtService;
 import org.acme.service.UsuarioService;
@@ -43,6 +45,21 @@ public class AuthResource {
         UsuarioResponseDTO usuario = autenticar(authDTO);
         String token = jwtService.generateJwt(usuario);
         return Response.ok(new AuthResponseDTO(token, "Bearer")).build();
+    }
+
+    @POST
+    @Path("/register")
+    public Response register(@Valid CadastroUsuarioDTO registerDTO) {
+        // Nome assume o valor do username para simplicidade no formulário de 3 campos
+        UsuarioDTO dto = new UsuarioDTO(
+            registerDTO.username(), 
+            registerDTO.username(), 
+            registerDTO.email(), 
+            registerDTO.senha(), 
+            2 // Perfil 2 = Comum
+        );
+        UsuarioResponseDTO usuario = usuarioService.create(dto);
+        return Response.status(Status.CREATED).entity(usuario).build();
     }
 
     @GET

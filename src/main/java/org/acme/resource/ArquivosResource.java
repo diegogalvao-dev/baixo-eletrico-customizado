@@ -1,5 +1,6 @@
 package org.acme.resource;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -16,6 +17,7 @@ import org.jboss.resteasy.reactive.multipart.FileUpload;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+@RolesAllowed("admin") 
 @Path("/arquivos")
 public class ArquivosResource {
 
