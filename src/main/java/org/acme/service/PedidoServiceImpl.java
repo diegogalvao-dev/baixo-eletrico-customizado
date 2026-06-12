@@ -7,12 +7,17 @@ import jakarta.ws.rs.NotFoundException;
 import org.acme.dto.PedidoDTO;
 import org.acme.dto.PedidoResponseDTO;
 import org.acme.model.Pedido;
-import org.acme.model.PessoaCliente;
+import org.acme.model.UsuarioCliente;
 import org.acme.repository.PedidoItemRepository;
 import org.acme.repository.PedidoRepository;
-import org.acme.repository.PessoaClienteRepository;
+import org.acme.repository.UsuarioClienteRepository;
+import org.acme.repository.ProdutoRepository;
+import org.acme.dto.ItemCarrinhoDTO;
+import org.acme.model.PedidoItem;
+import org.acme.model.Produto;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @ApplicationScoped
 public class PedidoServiceImpl implements PedidoService {
@@ -24,28 +29,62 @@ public class PedidoServiceImpl implements PedidoService {
     PedidoItemRepository pedidoItemRepository;
 
     @Inject
-    PessoaClienteRepository pessoaClienteRepository;
+    UsuarioClienteRepository usuarioClienteRepository;
+
+    @Inject
+    ProdutoRepository produtoRepository;
 
     @Override
     @Transactional
-    public PedidoResponseDTO create(PedidoDTO dto) {
+    public PedidoResponseDTO create(PedidoDTO dto, String username) {
         Pedido newPedido = new Pedido();
-        
+
         newPedido.setData(dto.data());
         newPedido.setValorTotal(dto.valortotal());
-        newPedido.setPedidoItems(pedidoItemRepository.findByIds(dto.pedidoItemList()));
+        newPedido.setEnderecoEnvio(dto.enderecoEnvio());
+        newPedido.setMetodoPagamento(dto.metodoPagamento());
 
+        // Se o front não manda, a gente pega do username do token autenticado
+        UsuarioCliente usuarioCliente = null;
+        
         if (dto.pessoaCliente() != null) {
-            PessoaCliente pessoaCliente = pessoaClienteRepository.findById(dto.pessoaCliente());
-            if (pessoaCliente == null) {
-                throw new NotFoundException("PessoaCliente with id " + dto.pessoaCliente() + " not found");
-            }
-            newPedido.setPessoaCliente(pessoaCliente);
+            usuarioCliente = usuarioClienteRepository.findById(dto.pessoaCliente());
+        } else if (username != null && !username.isBlank()) {
+            usuarioCliente = usuarioClienteRepository.findByUsername(username);
         }
 
+        if (usuarioCliente == null) {
+            throw new NotFoundException("Usuario não encontrado para associar ao pedido");
+        }
         
+        newPedido.setUsuarioCliente(usuarioCliente);
+
         pedidoRepository.persist(newPedido);
-        
+
+        List<PedidoItem> items = new ArrayList<>();
+        if (dto.pedidoItemList() != null) {
+            for (ItemCarrinhoDTO itemDto : dto.pedidoItemList()) {
+                PedidoItem item = new PedidoItem();
+                item.setPedido(newPedido);
+                item.setQuantidade(itemDto.quantidade());
+                item.setPrecoUnitario(itemDto.precoUnitario());
+
+                if (itemDto.produtoId() == null) {
+                    throw new IllegalArgumentException("Item do carrinho deve ter um produtoId");
+                }
+
+                Produto produto = produtoRepository.findById(itemDto.produtoId());
+                if (produto == null) {
+                    throw new NotFoundException("Produto com id " + itemDto.produtoId() + " não encontrado");
+                }
+                item.setProduto(produto);
+
+                pedidoItemRepository.persist(item);
+                items.add(item);
+            }
+        }
+        newPedido.setPedidoItems(items);
+
         return PedidoResponseDTO.valueOf(newPedido);
     }
 
@@ -54,19 +93,20 @@ public class PedidoServiceImpl implements PedidoService {
     public void update(long id, PedidoDTO dto) {
         Pedido modifyPedido = pedidoRepository.findById(id);
         if (modifyPedido == null) {
-            throw new NotFoundException("Pedido with id " + id + " not found");
+            throw new NotFoundException("Pedido com id " + id + " não encontrado");
         }
-        
+
         modifyPedido.setData(dto.data());
         modifyPedido.setValorTotal(dto.valortotal());
-        modifyPedido.setPedidoItems(pedidoItemRepository.findByIds(dto.pedidoItemList()));
-        
+        modifyPedido.setEnderecoEnvio(dto.enderecoEnvio());
+        modifyPedido.setMetodoPagamento(dto.metodoPagamento());
+
         if (dto.pessoaCliente() != null) {
-            PessoaCliente pessoaCliente = pessoaClienteRepository.findById(dto.pessoaCliente());
-            if (pessoaCliente == null) {
-                throw new NotFoundException("PessoaCliente with id " + dto.pessoaCliente() + " not found");
+            UsuarioCliente usuarioCliente = usuarioClienteRepository.findById(dto.pessoaCliente());
+            if (usuarioCliente == null) {
+                throw new NotFoundException("UsuarioCliente com id " + dto.pessoaCliente() + " não encontrado");
             }
-            modifyPedido.setPessoaCliente(pessoaCliente);
+            modifyPedido.setUsuarioCliente(usuarioCliente);
         }
     }
 
@@ -81,7 +121,7 @@ public class PedidoServiceImpl implements PedidoService {
     public PedidoResponseDTO findById(long id) {
         Pedido pedido = pedidoRepository.findById(id);
         if (pedido == null) {
-            throw new NotFoundException("Pedido with id " + id + " not found");
+            throw new NotFoundException("Pedido com id " + id + " não encontrado");
         }
         return PedidoResponseDTO.valueOf(pedido);
     }
@@ -92,4 +132,13 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidoRepository.findAll().stream().map(PedidoResponseDTO::valueOf).toList();
     }
 
+    @Override
+    @Transactional
+    public List<PedidoResponseDTO> findByUser(String username) {
+        UsuarioCliente usuarioCliente = usuarioClienteRepository.findByUsername(username);
+        if (usuarioCliente == null) {
+            throw new NotFoundException("Usuário cliente não encontrado");
+        }
+        return usuarioCliente.getPedidos().stream().map(PedidoResponseDTO::valueOf).toList();
+    }
 }

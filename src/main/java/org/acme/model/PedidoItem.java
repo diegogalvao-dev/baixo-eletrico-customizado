@@ -15,7 +15,7 @@ public class PedidoItem extends DefaultEntity {
     private Double precoUnitario;
 
     @ManyToOne
-    @JoinColumn(name = "produtoId")
+    @JoinColumn(name = "produtoId", nullable = true)
     private Produto produto;
 
     @ManyToOne
@@ -53,7 +53,4 @@ public class PedidoItem extends DefaultEntity {
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-
-    
-
 }

@@ -1,0 +1,72 @@
+{
+  "realm": "tp2",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "Adm"
+      },
+      {
+        "name": "User"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "quarkus-app",
+      "name": "quarkus-app",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "quarkus-secret",
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "firstName": "Administrador",
+      "lastName": "TP2",
+      "email": "admin@tp2.local",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "123456",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "Adm",
+        "User"
+      ]
+    },
+    {
+      "username": "carlos",
+      "firstName": "Carlos",
+      "lastName": "Silva",
+      "email": "carlos@tp2.local",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "123456",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "User"
+      ]
+    }
+  ]
+}

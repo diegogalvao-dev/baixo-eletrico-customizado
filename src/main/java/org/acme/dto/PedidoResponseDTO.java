@@ -6,18 +6,20 @@ import java.util.List;
 import org.acme.model.Pedido;
 
 public record PedidoResponseDTO(
-    
+
     Long id,
     LocalDate data,
     Double valorTotal,
-    List<Long> pedidoItemList,
-    Long pessoaCliente
+    String metodoPagamento,
+    String enderecoEnvio,
+    List<PedidoItemResponseDTO> itens,
+    Long usuarioClienteId
 
 ) {
 
-    public static PedidoResponseDTO valueOf(Pedido pedido){
+    public static PedidoResponseDTO valueOf(Pedido pedido) {
 
-        if(pedido == null){
+        if (pedido == null) {
             return null;
         }
 
@@ -25,9 +27,12 @@ public record PedidoResponseDTO(
                 pedido.getId(),
                 pedido.getData(),
                 pedido.getValorTotal(),
-                pedido.getPedidoItems().stream().map(p -> p.getId()).toList(),
-                pedido.getPessoaCliente().getId()
+                pedido.getMetodoPagamento(),
+                pedido.getEnderecoEnvio(),
+                pedido.getPedidoItems() != null
+                        ? pedido.getPedidoItems().stream().map(PedidoItemResponseDTO::valueOf).toList()
+                        : List.of(),
+                pedido.getUsuarioCliente() != null ? pedido.getUsuarioCliente().getId() : null
         );
     }
-
- } 
+}

@@ -11,8 +11,12 @@ import org.acme.model.Captador;
 import org.acme.repository.BaixoCustomizadoRepository;
 import org.acme.repository.CaptadoresRepository;
 import org.acme.repository.ConfiguracaoEletronicaRepository;
-import org.acme.repository.PessoaClienteRepository;
-import org.acme.repository.PessoaLuthierRepository;
+import org.acme.repository.UsuarioLuthierRepository;
+import org.acme.repository.ProjetoSalvoRepository;
+import org.acme.repository.UsuarioClienteRepository;
+import org.acme.model.ProjetoSalvo;
+import org.acme.model.UsuarioCliente;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.acme.exception.ValidationException;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -20,7 +24,7 @@ import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import java.util.List;
 
 @ApplicationScoped
-public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
+public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService {
 
     @Inject
     BaixoCustomizadoRepository baixoCustomizadoRepository;
@@ -32,35 +36,54 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
     CaptadoresRepository captadoresRepository;
 
     @Inject
-    PessoaClienteRepository pessoaClienteRepository;
+    UsuarioLuthierRepository usuarioLuthierRepository;
 
     @Inject
-    PessoaLuthierRepository pessoaLuthierRepository;
+    ProjetoSalvoRepository projetoSalvoRepository;
+
+    @Inject
+    UsuarioClienteRepository usuarioClienteRepository;
+
+    @Inject
+    JsonWebToken jwt;
 
     @Inject
     EntityManager entityManager;
 
     @Override
     @Transactional
-    public BaixoCustomizadoResponseDTO create(BaixoCustomizadoDTO dto){
+    public BaixoCustomizadoResponseDTO create(BaixoCustomizadoDTO dto) {
 
         BaixoCustomizado newBaixoCustomizado = new BaixoCustomizado();
 
+        newBaixoCustomizado.setName(dto.name());
+        newBaixoCustomizado.setPrice(dto.price());
         newBaixoCustomizado.setBaixoModeloBase(dto.baixoModeloBase());
         newBaixoCustomizado.setDescription(dto.description());
         newBaixoCustomizado.setBaixoCor(dto.baixoCor());
         newBaixoCustomizado.setConfiguracaoEletronica(configuracaoEletronicaRepository.findById(dto.configuracaoEletronica()));
-        newBaixoCustomizado.setEstimatedPrice(dto.estimatedPrice());
         newBaixoCustomizado.setBaixoStatus(dto.baixoStatus());
-        newBaixoCustomizado.setPessoaCliente(pessoaClienteRepository.findById(dto.pessoaCliente()));
-        newBaixoCustomizado.setPessoaLuthier(pessoaLuthierRepository.findById(dto.pessoaLuthier()));
+
+        if (dto.usuarioLuthier() != null) {
+            newBaixoCustomizado.setUsuarioLuthier(usuarioLuthierRepository.findById(dto.usuarioLuthier()));
+        }
+
         newBaixoCustomizado.setCaptador(captadoresRepository.listByIds(dto.captadorList()));
-        
 
         baixoCustomizadoRepository.persist(newBaixoCustomizado);
 
-        return BaixoCustomizadoResponseDTO.valueOf(newBaixoCustomizado);
+        String login = resolveUsername();
+        if (login != null && !login.isBlank()) {
+            UsuarioCliente cliente = usuarioClienteRepository.findByUsername(login);
+            if (cliente != null) {
+                ProjetoSalvo projetoSalvo = new ProjetoSalvo();
+                projetoSalvo.setUsuarioCliente(cliente);
+                projetoSalvo.setBaixoCustomizado(newBaixoCustomizado);
+                projetoSalvoRepository.persist(projetoSalvo);
+            }
+        }
 
+        return BaixoCustomizadoResponseDTO.valueOf(newBaixoCustomizado);
     }
 
     @Override
@@ -69,16 +92,18 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
 
         BaixoCustomizado modifyBaixoCustomizado = baixoCustomizadoRepository.findById(id);
 
+        modifyBaixoCustomizado.setName(dto.name());
+        modifyBaixoCustomizado.setPrice(dto.price());
         modifyBaixoCustomizado.setBaixoModeloBase(dto.baixoModeloBase());
         modifyBaixoCustomizado.setDescription(dto.description());
         modifyBaixoCustomizado.setBaixoCor(dto.baixoCor());
         modifyBaixoCustomizado.setConfiguracaoEletronica(configuracaoEletronicaRepository.findById(dto.configuracaoEletronica()));
-        modifyBaixoCustomizado.setEstimatedPrice(dto.estimatedPrice());
         modifyBaixoCustomizado.setBaixoStatus(dto.baixoStatus());
-        modifyBaixoCustomizado.setPessoaCliente(pessoaClienteRepository.findById(dto.pessoaCliente()));
-        modifyBaixoCustomizado.setPessoaLuthier(pessoaLuthierRepository.findById(dto.pessoaLuthier()));
-        
-        // Fix for "A collection with orphan deletion was no longer referenced by the owning entity instance"
+
+        if (dto.usuarioLuthier() != null) {
+            modifyBaixoCustomizado.setUsuarioLuthier(usuarioLuthierRepository.findById(dto.usuarioLuthier()));
+        }
+
         List<Captador> novosCaptadores = captadoresRepository.listByIds(dto.captadorList());
         modifyBaixoCustomizado.getCaptador().clear();
         modifyBaixoCustomizado.getCaptador().addAll(novosCaptadores);
@@ -130,20 +155,29 @@ public class BaixoCustomizadoServiceImpl implements BaixoCustomizadoService{
         return BaixoCustomizadoResponseDTO.valueOf(baixoCustomizado);
     }
 
+    @Override
+    public List<BaixoCustomizadoResponseDTO> getMyProjetos(String username) {
+        List<ProjetoSalvo> salvos = projetoSalvoRepository.findByUsuarioLogin(username);
+        return salvos.stream()
+                .map(ProjetoSalvo::getBaixoCustomizado)
+                .map(BaixoCustomizadoResponseDTO::valueOf)
+                .toList();
+    }
 
-    // private ConfiguracaoEletronica resolveConfiguracaoEletronica(ConfiguracaoEletronica dtoConfig) {
-    //     if (dtoConfig == null) {
-    //         return null;
-    //     }
-    //     if (dtoConfig.getId() != null) {
-    //         ConfiguracaoEletronica managed = configuracaoEletronicaRepository.findById(dtoConfig.getId());
-    //         if (managed == null) {
-    //             throw new NotFoundException("ConfiguracaoEletronica with id " + dtoConfig.getId() + " not found");
-    //         }
-    //         return managed;
-    //     }
-    //     // No ID means new config: the cascade settings in BaixoCustomizado will persist it.
-    //     return dtoConfig;
-    // }
-
+    private String resolveUsername() {
+        if (jwt == null) return null;
+        try {
+            String preferredUsername = jwt.getClaim("preferred_username");
+            if (preferredUsername != null && !preferredUsername.isBlank()) {
+                return preferredUsername;
+            }
+            String upn = jwt.getClaim("upn");
+            if (upn != null && !upn.isBlank()) {
+                return upn;
+            }
+            return jwt.getSubject();
+        } catch (Exception e) {
+            return null; // Caso não haja contexto ativo ou token
+        }
+    }
 }

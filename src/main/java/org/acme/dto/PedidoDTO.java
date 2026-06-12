@@ -7,7 +7,9 @@ public record PedidoDTO(
 
     LocalDate data,
     Double valortotal,
-    List<Long> pedidoItemList,
-    Long pessoaCliente
+    List<ItemCarrinhoDTO> pedidoItemList,
+    Long pessoaCliente,
+    String enderecoEnvio,
+    String metodoPagamento
 
-) { } 
+) { }

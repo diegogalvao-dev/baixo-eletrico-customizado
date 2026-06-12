@@ -1,4 +1,4 @@
----
+00---
 -- 1. FORNECEDORES (ID 100+)
 ---
 INSERT INTO fornecedor (id, name, cnpj, ativo) VALUES (100, 'Guitar Pro Supplies', '12.345.678/0001-10', true);
@@ -132,14 +132,13 @@ INSERT INTO produto (id, name, price, quantidadeestoque, fornecedorid, ativo) VA
 INSERT INTO baixo (id, baixomodelobase, numerodecordas, baixocor) VALUES (234, 'STINGRAY', 4, 'AZUL');
 
 ---
--- 4. PESSOAS (ID 10+)
+-- 4. USUÁRIOS E CLIENTES (ID 10+)
 ---
-INSERT INTO pessoa (id, name, email, ativo) VALUES (10, 'Ana Silva', 'ana.silva@example.com', true);
-INSERT INTO pessoacliente (id, cpf) VALUES (10, '12345678901');
+INSERT INTO usuario (id, nome, username, email, senha, perfil, ativo) VALUES (10, 'Ana Silva', 'anasilva', 'ana.silva@example.com', 'senha123', 1, true);
+INSERT INTO usuariocliente (id, cpf) VALUES (10, '12345678901');
 
-INSERT INTO pessoa (id, name, email, ativo) VALUES (30, 'Luthier João', 'joao.luthier@example.com', true);
-INSERT INTO pessoaluthier (id, cnpj) VALUES (30, '12.345.678/0001-99');
-
+INSERT INTO usuario (id, nome, username, email, senha, perfil, ativo) VALUES (30, 'Luthier João', 'joaoluthier', 'joao.luthier@example.com', 'senha123', 1, true);
+INSERT INTO usuarioluthier (id, cnpj, especialidade) VALUES (30, '12.345.678/0001-99', 'Pintura e regulagem');
 
 ---
 -- 6. CONFIGURAÇÃO E BAIXOS CUSTOMIZADOS (ID 400+)
@@ -147,8 +146,10 @@ INSERT INTO pessoaluthier (id, cnpj) VALUES (30, '12.345.678/0001-99');
 INSERT INTO configuracaoeletronica (id, volumeknobs, toneknobs, circuitoativo, ativo) VALUES (400, 2, 2, true, true);
 INSERT INTO configuracaoeletronica (id, volumeknobs, toneknobs, circuitoativo, ativo) VALUES (401, 6, 4, false, true);
 
-INSERT INTO baixocustomizado (id, baixomodelobase, description, baixocor, estimatedprice, baixostatus, clientebaixoCustomizados, pessoaLuthier, configuracaoeletronica_id, ativo) 
-VALUES (890, 'CUSTOM', 'Baixo custom completo', 'AZUL', 7200.00, 'EM_CONSTRUCAO', 10, 30, 400, true);
+INSERT INTO produto (id, name, price, quantidadeestoque, ativo) VALUES (890, 'Baixo Custom Azul Completo', 7200.00, 1, true);
+INSERT INTO baixocustomizado (id, baixomodelobase, description, baixocor, baixostatus, usuarioluthierid, configuracaoeletronica_id) 
+VALUES (890, 'CUSTOM', 'Baixo custom completo', 'AZUL', 'EM_CONSTRUCAO', 30, 400);
+
 
 -- Captador Ativo (ID 300)
 INSERT INTO captador (id, marca, price, captadorposicao, ativo) VALUES (300, 'show', 350.00, 'PONTE', true);
@@ -163,13 +164,21 @@ INSERT INTO captador (id, marca, price, captadorposicao, baixocustomizado_id, at
 INSERT INTO captadorpassivo (id, resistencia, numerobobinas) VALUES (311, 5.6, 1);
 
 ---
+---
 -- 7. SINCRONIZAÇÃO DE SEQUENCE
 ---
 -- Isso garante que o próximo ID gerado pelo Hibernate não colida com os manuais
--- SELECT setval('hibernate_sequence', (SELECT max(id) FROM produto));
+ALTER SEQUENCE usuario_id_seq RESTART WITH 1000;
+ALTER SEQUENCE produto_id_seq RESTART WITH 1000;
+ALTER SEQUENCE fornecedor_id_seq RESTART WITH 1000;
+ALTER SEQUENCE configuracaoeletronica_id_seq RESTART WITH 1000;
+ALTER SEQUENCE captador_id_seq RESTART WITH 1000;
 
 ---
 -- 8. USUÁRIOS (Senha padrão: 123456)
 ---
-INSERT INTO usuario (nome, username, email, senha, perfil, ativo) VALUES ('Administrador', 'admin', 'admin@deeptone.com', '0cctg7WgpEz7kC/AzVC+KX+bZLPXDtgJDqWWZWnmzHH+7Na2YVxYYSFPxcf7ImAjqfNckx0aT4n5qKM7WEoeEQ==', 1, true);
-INSERT INTO usuario (nome, username, email, senha, perfil, ativo) VALUES ('Usuario Comum', 'user', 'user@deeptone.com', '0cctg7WgpEz7kC/AzVC+KX+bZLPXDtgJDqWWZWnmzHH+7Na2YVxYYSFPxcf7ImAjqfNckx0aT4n5qKM7WEoeEQ==', 2, true);
+INSERT INTO usuario (id, nome, username, email, senha, perfil, ativo) VALUES (1, 'Administrador', 'admin', 'admin@deeptone.com', '0cctg7WgpEz7kC/AzVC+KX+bZLPXDtgJDqWWZWnmzHH+7Na2YVxYYSFPxcf7ImAjqfNckx0aT4n5qKM7WEoeEQ==', 1, true);
+INSERT INTO usuariocliente (id, cpf) VALUES (1, '00000000000');
+
+INSERT INTO usuario (id, nome, username, email, senha, perfil, ativo) VALUES (2, 'Usuario Comum', 'user', 'user@deeptone.com', '0cctg7WgpEz7kC/AzVC+KX+bZLPXDtgJDqWWZWnmzHH+7Na2YVxYYSFPxcf7ImAjqfNckx0aT4n5qKM7WEoeEQ==', 2, true);
+INSERT INTO usuariocliente (id, cpf) VALUES (2, '11111111111');

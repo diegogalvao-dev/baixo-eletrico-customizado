@@ -22,9 +22,14 @@ public class Pedido extends DefaultEntity {
     private List<PedidoItem> pedidoItems;
 
     @ManyToOne
-    @JoinColumn(name = "pessoaClienteId")
-    private PessoaCliente pessoaCliente;
+    @JoinColumn(name = "usuarioClienteId")
+    private UsuarioCliente usuarioCliente;
 
+    @Column(nullable = true)
+    private String enderecoEnvio;
+
+    @Column(nullable = true)
+    private String metodoPagamento;
 
     public LocalDate getData() {
         return data;
@@ -50,14 +55,27 @@ public class Pedido extends DefaultEntity {
         this.pedidoItems = pedidoItems;
     }
 
-    public PessoaCliente getPessoaCliente() {
-        return pessoaCliente;
+    public UsuarioCliente getUsuarioCliente() {
+        return usuarioCliente;
     }
 
-    public void setPessoaCliente(PessoaCliente pessoaCliente) {
-        this.pessoaCliente = pessoaCliente;
+    public void setUsuarioCliente(UsuarioCliente usuarioCliente) {
+        this.usuarioCliente = usuarioCliente;
     }
 
-    
+    public String getEnderecoEnvio() {
+        return enderecoEnvio;
+    }
 
+    public void setEnderecoEnvio(String enderecoEnvio) {
+        this.enderecoEnvio = enderecoEnvio;
+    }
+
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
 }

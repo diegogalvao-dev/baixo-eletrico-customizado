@@ -1,20 +1,23 @@
 package org.acme.model;
 
-import java.util.List;
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
-@Entity
-public class PessoaLuthier extends Pessoa {
+import java.util.ArrayList;
+import java.util.List;
 
-    @Column(nullable = false)
+@Entity
+public class UsuarioLuthier extends Usuario {
+
+    @Column
     private String cnpj;
 
-    @OneToMany(mappedBy = "pessoaLuthier")
-    private List<BaixoCustomizado> baixoCustomizados;
+    @Column
+    private String especialidade;
+
+    @OneToMany(mappedBy = "usuarioLuthier")
+    private List<BaixoCustomizado> baixoCustomizados = new ArrayList<>();
 
     public String getCnpj() {
         return cnpj;
@@ -24,6 +27,14 @@ public class PessoaLuthier extends Pessoa {
         this.cnpj = cnpj;
     }
 
+    public String getEspecialidade() {
+        return especialidade;
+    }
+
+    public void setEspecialidade(String especialidade) {
+        this.especialidade = especialidade;
+    }
+
     public List<BaixoCustomizado> getBaixoCustomizados() {
         return baixoCustomizados;
     }
@@ -31,7 +42,4 @@ public class PessoaLuthier extends Pessoa {
     public void setBaixoCustomizados(List<BaixoCustomizado> baixoCustomizados) {
         this.baixoCustomizados = baixoCustomizados;
     }
-
-    
-
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class BaixoCustomizado extends DefaultEntity {
+public class BaixoCustomizado extends Produto {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -25,25 +25,13 @@ public class BaixoCustomizado extends DefaultEntity {
     @JoinColumn(name = "baixocustomizado_id")
     private List<Captador> captadores;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "baixocustomizado_imagens", joinColumns = @JoinColumn(name = "baixocustomizado_id"))
-    @Column(name = "nome_imagem")
-    private List<String> nomeImagens;
-
-    @Column(nullable = false)
-    private Double estimatedPrice;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BaixoStatus baixoStatus;
 
     @ManyToOne
-    @JoinColumn(name = "clientebaixoCustomizados")
-    private PessoaCliente pessoaCliente;
-
-    @ManyToOne
-    @JoinColumn(name = "pessoaLuthier")
-    private PessoaLuthier pessoaLuthier;
+    @JoinColumn(name = "usuarioLuthierId")
+    private UsuarioLuthier usuarioLuthier;
 
     public BaixoModeloBase getBaixoModeloBase() {
         return baixoModeloBase;
@@ -85,14 +73,6 @@ public class BaixoCustomizado extends DefaultEntity {
         this.captadores = captadores;
     }
 
-    public Double getEstimatedPrice() {
-        return estimatedPrice;
-    }
-
-    public void setEstimatedPrice(Double estimatedPrice) {
-        this.estimatedPrice = estimatedPrice;
-    }
-
     public BaixoStatus getBaixoStatus() {
         return baixoStatus;
     }
@@ -101,28 +81,11 @@ public class BaixoCustomizado extends DefaultEntity {
         this.baixoStatus = baixoStatus;
     }
 
-    public PessoaCliente getPessoaCliente() {
-        return pessoaCliente;
+    public UsuarioLuthier getUsuarioLuthier() {
+        return usuarioLuthier;
     }
 
-    public void setPessoaCliente(PessoaCliente pessoaCliente) {
-        this.pessoaCliente = pessoaCliente;
+    public void setUsuarioLuthier(UsuarioLuthier usuarioLuthier) {
+        this.usuarioLuthier = usuarioLuthier;
     }
-
-    public PessoaLuthier getPessoaLuthier() {
-        return pessoaLuthier;
-    }
-
-    public void setPessoaLuthier(PessoaLuthier pessoaLuthier) {
-        this.pessoaLuthier = pessoaLuthier;
-    }
-
-    public List<String> getNomeImagens() {
-        return nomeImagens;
-    }
-
-    public void setNomeImagens(List<String> nomeImagens) {
-        this.nomeImagens = nomeImagens;
-    }
-
 }

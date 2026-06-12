@@ -74,11 +74,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-smallrye-jwt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-smallrye-jwt-build</artifactId>
+            <artifactId>quarkus-oidc</artifactId>
         </dependency>
         <!-- testcontainers: usado pelo SeaweedFSDevService no perfil dev -->
         <dependency>

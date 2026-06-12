@@ -22,6 +22,16 @@ public class ProdutoResource {
     ProdutoService produtoService;
 
     @GET
+    @Path("/searchByPriceRange")
+    public List<ProdutoResponseDTO> searchByPriceRange(
+        @QueryParam("min") @DefaultValue("0") double min,
+        @QueryParam("max") @DefaultValue("1000000") double max,
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
+        return produtoService.searchByPriceRange(min, max, page, pageSize);
+    }
+
+    @GET
     @Path("/buscarTodos")
     public List<ProdutoResponseDTO> buscarTodos(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
         return produtoService.findAll(page, pageSize);
@@ -29,8 +39,14 @@ public class ProdutoResource {
 
     @GET
     @Path("/search")
-    public List<ProdutoResponseDTO> search(@QueryParam("query") String query, @QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
-        return produtoService.search(query, page, pageSize);
+    public List<ProdutoResponseDTO> search(
+        @QueryParam("query") String query,
+        @QueryParam("min") Double min,
+        @QueryParam("max") Double max,
+        @QueryParam("sort") String sort,
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("100") int pageSize) {
+        return produtoService.searchFiltered(query, min, max, sort, page, pageSize);
     }
 
     @GET

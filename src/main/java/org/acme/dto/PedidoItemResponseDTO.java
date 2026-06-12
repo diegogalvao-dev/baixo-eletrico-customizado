@@ -21,8 +21,8 @@ public record PedidoItemResponseDTO(
             pedidoItem.getId(),
             pedidoItem.getQuantidade(),
             pedidoItem.getPrecoUnitario(),
-            pedidoItem.getProduto().getId(),
-            pedidoItem.getPedido().getId()
+            pedidoItem.getProduto() != null ? pedidoItem.getProduto().getId() : null,
+            pedidoItem.getPedido() != null ? pedidoItem.getPedido().getId() : null
         );
     }
 

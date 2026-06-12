@@ -10,7 +10,7 @@ import org.acme.dto.ConfiguracaoEletronicaDTO;
 import org.acme.service.ConfiguracaoEletronicaService;
 
 
-@RolesAllowed("admin")
+@RolesAllowed({"User", "admin", "user"})
 @Path("configuracao-eletronica")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

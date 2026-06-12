@@ -1,23 +1,27 @@
 package org.acme.resource;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import io.quarkus.security.Authenticated;
 import org.acme.model.BaixoCustomizado;
 import org.acme.repository.AcessoriosRepository;
 import org.acme.repository.BaixoCustomizadoRepository;
 import org.acme.repository.BaixoRepository;
+import org.acme.repository.UsuarioRepository;
 import org.acme.service.ArquivoService;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
-@RolesAllowed("admin") 
+@PermitAll
 @Path("/arquivos")
 public class ArquivosResource {
 
@@ -32,6 +36,12 @@ public class ArquivosResource {
 
     @Inject
     AcessoriosRepository acessoriosRepository;
+
+    @Inject
+    UsuarioRepository usuarioRepository;
+
+    @Inject
+    JsonWebToken jwt;
 
     @Inject
     jakarta.persistence.EntityManager entityManager;
@@ -105,6 +115,36 @@ public class ArquivosResource {
             return Response.ok(fid).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+        }
+    }
+
+    @PATCH
+    @Path("/usuario/foto")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Authenticated
+    @Transactional
+    public Response uploadFotoPerfil(@RestForm("file") FileUpload file) {
+        try {
+            String username = jwt.getSubject();
+            var usuario = usuarioRepository.findByUsername(username);
+            if (usuario == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            // Remove foto anterior, se existir
+            if (usuario.getFotoPerfil() != null) {
+                try { arquivoService.excluir(usuario.getFotoPerfil()); } catch (Exception ignored) {}
+            }
+
+            byte[] bytes = java.nio.file.Files.readAllBytes(file.filePath());
+            String fid = arquivoService.salvar(file.fileName(), bytes);
+            usuario.setFotoPerfil(fid);
+
+            return Response.ok(fid).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Erro no upload: " + e.getMessage()).build();
         }
     }
 

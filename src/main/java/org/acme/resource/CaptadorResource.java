@@ -10,7 +10,7 @@ import org.acme.service.CaptadorService;
 
 import java.util.List;
 
-@RolesAllowed("admin") 
+@RolesAllowed({"User", "admin", "user"}) 
 @Path("/captadores")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

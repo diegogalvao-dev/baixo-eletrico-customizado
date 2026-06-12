@@ -13,7 +13,8 @@ import jakarta.persistence.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Baixo.class, name = "BAIXO"),
-        @JsonSubTypes.Type(value = Acessorio.class, name = "ACESSORIO")
+        @JsonSubTypes.Type(value = Acessorio.class, name = "ACESSORIO"),
+        @JsonSubTypes.Type(value = BaixoCustomizado.class, name = "BAIXO_CUSTOMIZADO")
 })
 @Inheritance(strategy = InheritanceType.JOINED)
 @SQLRestriction("ativo = true")

@@ -15,5 +15,5 @@ public interface BaixoCustomizadoService {
     List<BaixoCustomizadoResponseDTO> search(String term, Integer page, Integer pageSize);
     long count();
     BaixoCustomizadoResponseDTO findById(long id);
-
+    List<BaixoCustomizadoResponseDTO> getMyProjetos(String username);
 }

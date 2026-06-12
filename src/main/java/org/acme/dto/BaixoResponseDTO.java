@@ -35,7 +35,7 @@ public record BaixoResponseDTO(
                 baixo.getName(),
                 baixo.getPrice(),
                 baixo.getQuantidadeEstoque(),
-                baixo.getFornecedor().getName(),
+                baixo.getFornecedor() != null ? baixo.getFornecedor().getName() : null,
                 baixo.getNomeImagens() != null ? List.copyOf(baixo.getNomeImagens()) : List.of(),
                 baixo.getImagemPrincipal());
     }

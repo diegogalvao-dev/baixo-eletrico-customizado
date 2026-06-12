@@ -84,4 +84,20 @@ public class ProdutoServiceImpl implements ProdutoService {
         return ProdutoResponseDTO.valueOf(produto);
     }
 
+    @Override
+    public List<ProdutoResponseDTO> searchByPriceRange(Double min, Double max, Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+        PanacheQuery<Produto> query = produtoRepository.searchByPriceRange(min, max).page(pageNumber, size);
+        return query.list().stream().map(ProdutoResponseDTO::valueOf).toList();
+    }
+
+    @Override
+    public List<ProdutoResponseDTO> searchFiltered(String term, Double min, Double max, String sort, Integer page, Integer pageSize) {
+        int pageNumber = page == null ? 0 : page;
+        int size = pageSize == null ? 100 : pageSize;
+        PanacheQuery<Produto> query = produtoRepository.searchFiltered(term, min, max, sort).page(pageNumber, size);
+        return query.list().stream().map(ProdutoResponseDTO::valueOf).toList();
+    }
+
 }

@@ -7,10 +7,11 @@ import org.acme.dto.PedidoResponseDTO;
 
 public interface PedidoService {
 
-    PedidoResponseDTO create(PedidoDTO pedidoDTO);
+    PedidoResponseDTO create(PedidoDTO pedidoDTO, String username);
     void update(long id, PedidoDTO pedidoDTO);
     void delete(long id);
     PedidoResponseDTO findById(long id);
     List<PedidoResponseDTO> findAll();
+    List<PedidoResponseDTO> findByUser(String username);
 
 }

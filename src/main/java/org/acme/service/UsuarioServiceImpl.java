@@ -7,6 +7,7 @@ import org.acme.dto.UsuarioDTO;
 import org.acme.dto.UsuarioResponseDTO;
 import org.acme.model.Perfil;
 import org.acme.model.Usuario;
+import org.acme.model.UsuarioCliente;
 import org.acme.repository.UsuarioRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,7 +27,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional
     public UsuarioResponseDTO create(UsuarioDTO dto) {
-        Usuario usuario = new Usuario();
+        UsuarioCliente usuario = new UsuarioCliente();
         usuario.setNome(dto.nome());
         usuario.setUsername(dto.username());
         usuario.setEmail(dto.email());

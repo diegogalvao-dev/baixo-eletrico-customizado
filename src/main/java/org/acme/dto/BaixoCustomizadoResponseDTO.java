@@ -10,15 +10,15 @@ import java.util.List;
 
 public record BaixoCustomizadoResponseDTO(
         Long id,
+        String name,
+        Double price,
         BaixoModeloBase baixoModeloBase,
         String description,
         BaixoCor baixoCor,
         Long configuracaoEletronica,
         List<Long> captadorList,
-        Double estimatedPrice,
         BaixoStatus baixoStatus,
-        Long pessoaCliente,
-        Long pessoaLuthier,
+        Long usuarioLuthierId,
         List<String> nomeImagens) {
 
     public static BaixoCustomizadoResponseDTO valueOf(BaixoCustomizado baixoCustomizado) {
@@ -29,17 +29,15 @@ public record BaixoCustomizadoResponseDTO(
 
         return new BaixoCustomizadoResponseDTO(
                 baixoCustomizado.getId(),
+                baixoCustomizado.getName(),
+                baixoCustomizado.getPrice(),
                 baixoCustomizado.getBaixoModeloBase(),
                 baixoCustomizado.getDescription(),
                 baixoCustomizado.getBaixoCor(),
-                baixoCustomizado.getConfiguracaoEletronica().getId(),
-                baixoCustomizado.getCaptador().stream().map(Captador::getId).toList(),
-                baixoCustomizado.getEstimatedPrice(),
+                baixoCustomizado.getConfiguracaoEletronica() != null ? baixoCustomizado.getConfiguracaoEletronica().getId() : null,
+                baixoCustomizado.getCaptador() != null ? baixoCustomizado.getCaptador().stream().map(Captador::getId).toList() : List.of(),
                 baixoCustomizado.getBaixoStatus(),
-                baixoCustomizado.getPessoaCliente().getId(),
-                baixoCustomizado.getPessoaLuthier().getId(),
+                baixoCustomizado.getUsuarioLuthier() != null ? baixoCustomizado.getUsuarioLuthier().getId() : null,
                 baixoCustomizado.getNomeImagens() != null ? List.copyOf(baixoCustomizado.getNomeImagens()) : List.of());
-
     }
-
 }

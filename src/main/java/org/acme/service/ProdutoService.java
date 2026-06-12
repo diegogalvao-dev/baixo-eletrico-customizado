@@ -19,4 +19,8 @@ public interface ProdutoService {
 
     ProdutoResponseDTO findById(long id);
 
+    List<ProdutoResponseDTO> searchByPriceRange(Double min, Double max, Integer page, Integer pageSize);
+
+    List<ProdutoResponseDTO> searchFiltered(String term, Double min, Double max, String sort, Integer page, Integer pageSize);
+
 }

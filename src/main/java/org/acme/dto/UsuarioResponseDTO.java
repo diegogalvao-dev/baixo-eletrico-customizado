@@ -8,7 +8,9 @@ public record UsuarioResponseDTO(
     String nome,
     String username,
     String email,
-    Perfil perfil
+    Perfil perfil,
+    String fotoPerfil,
+    String telefone
 ) {
     public static UsuarioResponseDTO valueOf(Usuario usuario) {
         return new UsuarioResponseDTO(
@@ -16,7 +18,9 @@ public record UsuarioResponseDTO(
             usuario.getNome(),
             usuario.getUsername(),
             usuario.getEmail(),
-            usuario.getPerfil()
+            usuario.getPerfil(),
+            usuario.getFotoPerfil(),
+            usuario.getTelefone()
         );
     }
 }
